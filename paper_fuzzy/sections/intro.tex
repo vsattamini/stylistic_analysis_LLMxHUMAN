@@ -1,28 +1,47 @@
 % Introduction for fuzzy logic paper
 
 \noindent
-% Provide an overview of fuzzy set theory and its motivation in modelling
-% vagueness and uncertainty.  Fuzzy sets allow elements to belong to a
-% set with degrees of membership rather than crisp yes/no assignments
-% \citep{Zadeh1965}.  A fuzzy set is defined by a universe of discourse
-% and a membership function mapping each element to the interval [0,1]
-% \citep{WikipediaFuzzySet}.  This generalisation of classical set
-% theory permits gradual assessment of membership and has been applied in
-% linguistics, decision making and control systems.
+Além da abordagem estatística, exploramos a aplicação de conjuntos fuzzy para distinguir textos humanos de textos de LLM. A teoria de conjuntos fuzzy foi proposta por Lotfi Zadeh em 1965 e introduziu a noção de pertencimento gradual: elementos podem pertencer a um conjunto com graus entre 0 e 1, representados por uma função de pertinência
+tutorialspoint.com
+. Essa função mapeia cada elemento do universo para um valor no intervalo [0, 1], caracterizando a “fuzziness” – toda a informação sobre o conjunto
+tutorialspoint.com
+. Conceitos como núcleo (região com pertencimento total), suporte (região com pertencimento não‑nulo) e fronteira (região de pertencimento parcial) auxiliam a descrever a topologia de uma função de pertinência
+tutorialspoint.com
+. As funções de pertinência foram introduzidas por Zadeh em sua pesquisa seminal
+tutorialspoint.com
+ e podem ser representadas graficamente, sendo construídas de acordo com a experiência ou com o conhecimento acumulado sobre o fenômeno analisado
+tutorialspoint.com
+.
 
-% In the context of natural language generation, distinguishing human
-% texts from machine–generated texts often requires dealing with
-% uncertainties: certain stylometric features may indicate a text is
-% human–like but not conclusively so.  Fuzzy logic offers a framework
-% for approximate reasoning \citep{Zimmermann2001} that can complement
-% crisp statistical models.  By assigning degrees of belief to the
-% hypotheses "human" and "LLM", and aggregating evidence from
-% multiple features, fuzzy inference systems can provide interpretable
-% classifications.
+Para criar um classificador fuzzy, definimos funções de pertinência triangulares e trapezoidais sobre as mesmas métricas estilométricas utilizadas no primeiro artigo. Estas funções são determinadas por três ou quatro parâmetros (a, b, c, d) e são amplamente usadas em sistemas fuzzy pela simplicidade algorítmica e eficiência computacional
+researchhubs.com
+. Embora as funções triangulares não sejam suaves nos vértices, elas oferecem boa aproximação em muitos problemas práticos. Funções mais suaves, como Gaussianas e sinoidais, também podem ser consideradas; estas são parametrizadas por centro e largura e têm propriedades úteis como invariância sob multiplicação e transformada de Fourier
+researchhubs.com
+.
 
-% State the purpose of this paper: to apply fuzzy set theory and fuzzy
-% inference to the same stylometric feature set used in the statistical
-% analysis, construct membership functions from the data, derive simple
-% inference rules automatically and evaluate the performance of this
-% approach.  Highlight that by reusing the extracted features we
-% minimise additional work while exploring a complementary methodology.
+O interesse em utilizar lógica fuzzy em estilometria nasce da observação de que categorias linguísticas raramente são discretas: definições como “texto bem estruturado” ou “fluência alta” são graduais e dependem de critérios vagos. Um artigo recente defende que a lógica fuzzy ocupa um espaço intermediário entre ciência empírica e lógica formal e que se aproxima do modo como usamos a linguagem natural para expressar imprecisão
+researchpod.org
+. Essa característica a torna adequada para modelar a “gradualidade” no pertencimento de um texto a uma classe (humano ou LLM) e para incorporar regras linguísticas flexíveis. Assim, ao construir funções de pertinência com base em distribuições de métricas estilométricas, podemos transformar o problema de classificação em um sistema de inferência fuzzy, combinando graus de pertinência para obter uma probabilidade final de pertencimento. A proposta aproveita a mesma base de dados e características do artigo estatístico, unificando esforços e maximizando resultados.
+
+
+Além da abordagem estatística, exploramos a aplicação de conjuntos fuzzy para distinguir textos humanos de textos de LLM. A teoria de conjuntos fuzzy foi proposta por Lotfi Zadeh em 1965 e introduziu a noção de pertencimento gradual: elementos podem pertencer a um conjunto com graus entre 0 e 1, representados por uma função de pertinência
+tutorialspoint.com
+. Essa função mapeia cada elemento do universo para um valor no intervalo [0, 1], caracterizando a “fuzziness” – toda a informação sobre o conjunto
+tutorialspoint.com
+. Conceitos como núcleo (região com pertencimento total), suporte (região com pertencimento não‑nulo) e fronteira (região de pertencimento parcial) auxiliam a descrever a topologia de uma função de pertinência
+tutorialspoint.com
+. As funções de pertinência foram introduzidas por Zadeh em sua pesquisa seminal
+tutorialspoint.com
+ e podem ser representadas graficamente, sendo construídas de acordo com a experiência ou com o conhecimento acumulado sobre o fenômeno analisado
+tutorialspoint.com
+.
+
+Para criar um classificador fuzzy, definimos funções de pertinência triangulares e trapezoidais sobre as mesmas métricas estilométricas utilizadas no primeiro artigo. Estas funções são determinadas por três ou quatro parâmetros (a, b, c, d) e são amplamente usadas em sistemas fuzzy pela simplicidade algorítmica e eficiência computacional
+researchhubs.com
+. Embora as funções triangulares não sejam suaves nos vértices, elas oferecem boa aproximação em muitos problemas práticos. Funções mais suaves, como Gaussianas e sinoidais, também podem ser consideradas; estas são parametrizadas por centro e largura e têm propriedades úteis como invariância sob multiplicação e transformada de Fourier
+researchhubs.com
+.
+
+O interesse em utilizar lógica fuzzy em estilometria nasce da observação de que categorias linguísticas raramente são discretas: definições como “texto bem estruturado” ou “fluência alta” são graduais e dependem de critérios vagos. Um artigo recente defende que a lógica fuzzy ocupa um espaço intermediário entre ciência empírica e lógica formal e que se aproxima do modo como usamos a linguagem natural para expressar imprecisão
+researchpod.org
+. Essa característica a torna adequada para modelar a “gradualidade” no pertencimento de um texto a uma classe (humano ou LLM) e para incorporar regras linguísticas flexíveis. Assim, ao construir funções de pertinência com base em distribuições de métricas estilométricas, podemos transformar o problema de classificação em um sistema de inferência fuzzy, combinando graus de pertinência para obter uma probabilidade final de pertencimento. A proposta aproveita a mesma base de dados e características do artigo estatístico, unificando esforços e maximizando resultados.
