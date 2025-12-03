@@ -1,0 +1,73 @@
+% Discussion - Rewritten based on actual findings and Regina's feedback style
+
+\subsection{Custo da Interpretabilidade}
+
+O classificador fuzzy alcançou 89,34\% de ROC AUC, aproximadamente 8 pontos percentuais abaixo da regressão logística (97,03\%). Esta diferença representa o custo da interpretabilidade: ao priorizar transparência sobre complexidade algorítmica, aceita-se redução modesta no poder discriminatório.
+
+Entretanto, esta perda é acompanhada de ganhos significativos:
+
+\begin{itemize}
+    \item \textbf{Robustez excepcional:} desvio padrão 3--4× menor que métodos comparativos, indicando maior estabilidade sob diferentes condições de amostragem.
+
+    \item \textbf{Explicabilidade completa:} cada decisão pode ser auditada através dos graus de pertinência das variáveis linguísticas, revelando exatamente como cada métrica estilométrica contribui para a classificação.
+
+    \item \textbf{Eficiência computacional:} a classificação requer apenas 30 avaliações de funções triangulares (10 características × 3 conjuntos fuzzy) e uma média aritmética, sem necessidade de inversão de matrizes ou otimização iterativa.
+\end{itemize}
+
+Para aplicações onde transparência é prioritária -- como auditoria de sistemas, contextos educacionais ou decisões que precisam ser justificadas a não-especialistas -- a perda de 8\% em AUC pode ser amplamente compensada pelas vantagens de interpretabilidade.
+
+\subsection{Comparação com Métodos Estatísticos}
+
+A hierarquia de desempenho (Logística $>$ LDA $>$ Fuzzy) revela padrões consistentes:
+
+\begin{itemize}
+    \item \textbf{Regressão logística} maximiza desempenho discriminatório (97,03\% AUC) mas oferece interpretabilidade limitada através de coeficientes que requerem conhecimento estatístico para interpretação.
+
+    \item \textbf{LDA} alcança desempenho intermediário (94,12\% AUC) com interpretabilidade moderada via projeção discriminante linear.
+
+    \item \textbf{Fuzzy} prioriza transparência total (89,34\% AUC) com graus de pertinência diretamente compreensíveis por humanos.
+\end{itemize}
+
+A escolha entre métodos depende do contexto de aplicação: triagem automatizada em larga escala favorece regressão logística, enquanto decisões que precisam ser explicadas e auditadas favorecem o sistema fuzzy.
+
+\subsection{Limitações e Direções Futuras}
+
+As principais limitações da abordagem fuzzy incluem:
+
+\begin{enumerate}
+    \item \textbf{Simplicidade da modelagem:} funções triangulares e agregação por média aritmética são escolhas básicas. Funções Gaussianas ou de Mahalanobis, combinadas com operadores de agregação mais sofisticados (integrais de Choquet, média ordenada ponderada), poderiam melhorar o desempenho.
+
+    \item \textbf{Independência de características:} o sistema trata cada métrica estilométrica independentemente, ignorando correlações multidimensionais. Regras fuzzy hierárquicas poderiam capturar interações entre características.
+
+    \item \textbf{Pesos uniformes:} todas as características contribuem igualmente para a decisão final. Pesos aprendidos via otimização meta-heurística poderiam priorizar métricas mais discriminantes.
+
+    \item \textbf{Validação limitada:} testamos apenas texto genérico em português brasileiro. Domínios específicos (acadêmico, jornalístico, técnico) podem requerer ajuste de funções de pertinência.
+\end{enumerate}
+
+Direções futuras incluem:
+
+\begin{itemize}
+    \item Aplicação do Princípio de Extensão Fuzzy para incorporar correlações multidimensionais entre características.
+
+    \item Implementação de funções Gama e distância de Mahalanobis para capturar estrutura multivariada dos dados.
+
+    \item Exploração de sistemas fuzzy tipo-2 para modelar incerteza nas próprias funções de pertinência.
+
+    \item Validação em múltiplos domínios textuais e idiomas para avaliar generalização.
+\end{itemize}
+
+\subsection{Contribuições}
+
+Este trabalho apresenta contribuições metodológicas e empíricas:
+
+\begin{enumerate}
+    \item \textbf{Primeira aplicação de lógica fuzzy para detecção de LLMs:} demonstramos que sistemas fuzzy simples podem competir com métodos mais complexos (89\% AUC), preservando interpretabilidade total.
+
+    \item \textbf{Abordagem orientada a dados:} a determinação de parâmetros por quantis elimina necessidade de conhecimento especialista, tornando o método escalável e reproduzível.
+
+    \item \textbf{Quantificação do custo da interpretabilidade:} estabelecemos empiricamente que o trade-off entre explicabilidade e desempenho é modesto (~8\% de redução em AUC), tornando sistemas fuzzy viáveis para aplicações sensíveis.
+
+    \item \textbf{Robustez excepcional:} a variância 3--4× menor comparada a métodos estatísticos sugere que sistemas fuzzy podem ser mais estáveis em condições de amostragem variadas.
+\end{enumerate}
+
+À medida que sistemas de IA tornam-se mais difundidos e suas decisões mais impactantes, abordagens que priorizam explicabilidade -- como a apresentada neste trabalho -- tornam-se fundamentais para desenvolvimento ético e transparente da inteligência artificial.

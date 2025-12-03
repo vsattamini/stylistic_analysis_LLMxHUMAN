@@ -1,0 +1,62 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[Herbold et al. 2023]{stylometric_llm_detection}
+\abntrefinfo{Herbold et al.}{HERBOLD et al.}{2023}
+{HERBOLD, S. et al. A large-scale comparison of human-written versus
+  chatgpt-generated essays.
+\textbf{Scientific Data}, v.~10, p. Article 802, 2023.
+Also available as arXiv:2311.15636.}
+
+\bibitem[Klir e Yuan 1995]{klir1995}
+\abntrefinfo{Klir e Yuan}{KLIR; YUAN}{1995}
+{KLIR, G.~J.; YUAN, B. \textbf{Fuzzy Sets and Fuzzy Logic: Theory and
+  Applications}. [S.l.]: Prentice Hall, 1995.
+ISBN 9780131011717.}
+
+\bibitem[Liu et al. 2024]{liu2024}
+\abntrefinfo{Liu et al.}{LIU et al.}{2024}
+{LIU, M. et al. The fusion of fuzzy theories and natural language processing: A
+  state-of-the-art survey.
+\textbf{Applied Soft Computing}, v.~162, p. 111789, 2024.}
+
+\bibitem[Pedrycz 1994]{pedrycz1994}
+\abntrefinfo{Pedrycz}{PEDRYCZ}{1994}
+{PEDRYCZ, W. Why triangular membership functions?
+\textbf{Fuzzy Sets and Systems}, v.~64, p. 21--30, 1994.}
+
+\bibitem[Takagi e Sugeno 1985]{takagi1985}
+\abntrefinfo{Takagi e Sugeno}{TAKAGI; SUGENO}{1985}
+{TAKAGI, T.; SUGENO, M. Fuzzy identification of systems and its applications to
+  modeling and control.
+\textbf{IEEE Transactions on Systems, Man, and Cybernetics}, SMC-15, n.~1, p.
+  116--132, 1985.}
+
+\bibitem[Vashishtha, Gupta e Mittal 2023]{vashishtha2023}
+\abntrefinfo{Vashishtha, Gupta e Mittal}{VASHISHTHA; GUPTA; MITTAL}{2023}
+{VASHISHTHA, S.; GUPTA, V.; MITTAL, M. Sentiment analysis using fuzzy logic: A
+  comprehensive literature review.
+\textbf{WIREs Data Mining and Knowledge Discovery}, v.~13, n.~6, p. e1509,
+  2023.}
+
+\bibitem[Wang 1997]{wang1997}
+\abntrefinfo{Wang}{WANG}{1997}
+{WANG, L.-X. \textbf{A Course in Fuzzy Systems and Control}. [S.l.]: Prentice
+  Hall, 1997.}
+
+\bibitem[Wang et al. 2024]{wang2024fuzzy}
+\abntrefinfo{Wang et al.}{WANG et al.}{2024}
+{WANG, Y. et al. Interpretable classifier design by axiomatic fuzzy sets theory
+  and derivative-free optimization.
+\textbf{IEEE Transactions on Fuzzy Systems}, v.~32, n.~7, p. 3857--3868, 2024.}
+
+\bibitem[Zadeh 1965]{zadeh1965}
+\abntrefinfo{Zadeh}{ZADEH}{1965}
+{ZADEH, L.~A. Fuzzy sets.
+\textbf{Information and Control}, v.~8, n.~3, p. 338--353, 1965.}
+
+\end{thebibliography}

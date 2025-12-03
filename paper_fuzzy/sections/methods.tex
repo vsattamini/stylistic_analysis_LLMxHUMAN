@@ -1,60 +1,110 @@
 % Fuzzy Set Theory Background and Methods
 
-\noindent
-% Briefly recall the basic definitions of fuzzy sets and fuzzy logic.
-% A fuzzy set \(A\) on a universe of discourse \(U\) is a pair \((U,\mu_A)\)
-% where the membership function \(\mu_A:U\to[0,1]\) assigns to each element
-% a degree of membership \citep{WikipediaFuzzySet}.  Unlike crisp sets,
-% membership grades allow gradual transitions between full inclusion (1) and
-% exclusion (0).  Fuzzy logic, introduced by \citet{Zadeh1965}, extends
-% classical Boolean logic to handle partial truth values and supports
-% approximate reasoning.
+\subsection{Fundamentos de Conjuntos Fuzzy}
 
-% \subsection*{Feature extraction}
-% We reuse the same features extracted for the statistical analysis
-% (Section~\ref{sec:methods} of the statistics paper).  These include
-% measures of sentence length, lexical diversity, character entropy,
-% function word proportion, first person pronoun ratio, bigram repetition
-% and readability.  Each feature provides evidence for the degree to which
-% a text is more likely to be human or machine–generated.
+Um conjunto fuzzy $A$ em um universo de discurso $U$ caracteriza-se por uma função de pertinência $\mu_A: U \to [0,1]$ que atribui a cada elemento $x \in U$ um grau de pertinência no intervalo $[0,1]$~\cite{zadeh1965}. Diferentemente dos conjuntos clássicos, onde $\mu_A(x) \in \{0,1\}$, os conjuntos fuzzy permitem transições graduais quando a inclusão total ($\mu_A(x) = 1$) e exclusão total ($\mu_A(x) = 0$). Os conceitos a seguir são importantes:
 
-% \subsection*{Membership functions}
-% For each feature \(x\) we construct three triangular membership
-% functions representing the linguistic concepts ``low'', ``medium'' and
-% ``high''.  The vertices of these triangles are determined from the
-% 33rd percentile \(q_{0.33}\), median \(q_{0.50}\) and 66th percentile
-% \(q_{0.66}\) of the feature distribution across all samples (training
-% data).  Let \(x_{\min}\) and \(x_{\max}\) denote the minimum and
-% maximum observed values.  Then the ``low'' membership function has
-% vertices \((x_{\min}, x_{\min}, q_{0.33})\), the ``medium'' function
-% \((q_{0.33}, q_{0.50}, q_{0.66})\) and the ``high'' function
-% \((q_{0.33}, q_{0.66}, x_{\max})\).  The membership degree of a value
-% \(x\) is computed using the standard triangular function.
+\begin{itemize}
+    \item \textbf{Núcleo (core):} $\{x \in U : \mu_A(x) = 1\}$, região com pertinência total
+    \item \textbf{Suporte (support):} $\{x \in U : \mu_A(x) > 0\}$, região com pertinência não-nula
+    \item \textbf{Fronteira (boundary):} região onde $0 < \mu_A(x) < 1$, pertinência parcial
+\end{itemize}
 
-% \subsection*{Orientation and rules}
-% To determine whether a feature indicates humanness or machine–
-% generatedness, we examine group medians: if the median of the human
-% class exceeds that of the LLM class, the feature is considered
-% ``direct'' and high values support the human hypothesis; otherwise
-% orientation is ``inverse'' and low values support the human hypothesis.
-% Each feature thus casts a vote for the human or LLM class based on its
-% membership degree.  Medium membership contributes equally to both classes.
+A lógica fuzzy, proposta por Zadeh~\cite{zadeh1965}, estende a lógica Booleana clássica para manipular valores de verdade parciais e suportar raciocínio aproximado. Operações fundamentais incluem união (máximo), interseção (mínimo) e complemento ($1 - \mu_A(x)$).
 
-% \subsection*{Inference and defuzzification}
-% For a given sample, membership degrees for all features are computed and
-% aggregated by averaging to obtain overall scores for the human and LLM
-% hypotheses.  The probabilities are normalised to sum to 1 and the
-% predicted class is the one with the higher degree.  This simple
-% aggregation corresponds to a Takagi–Sugeno zero‑order model with
-% uniformly weighted rules \citep{Zimmermann2001}.  More sophisticated
-% aggregation operators (e.g. weighted averages, fuzzy integrals) could
-% be explored in future work.
+\subsection{Conjunto de Dados e Características}
 
-% \subsection*{Evaluation}
-% The fuzzy classifier is evaluated using the same cross–validation
-% scheme as the statistical models (leave–one–topic–out or
-% stratified K–fold).  Performance is measured by accuracy, ROC curves
-% and precision–recall curves, allowing a direct comparison with the
-% classical classifiers.  The transparency of the fuzzy system makes it
-% straightforward to analyse which features contribute most to the
-% decision.
+Utilizamos as mesmas 10 características estilométricas: \texttt{sent\_mean}, \texttt{sent\_std}, \texttt{sent\_burst}, \texttt{ttr}, \texttt{herdan\_c}, \texttt{hapax\_prop}, \texttt{char\_entropy}, \texttt{func\_word\_ratio}, \texttt{first\_person\_ratio} e \texttt{bigram\_repeat\_ratio}.
+
+\subsection{Funções de Pertinência Triangulares}
+
+Para cada característica, definimos três conjuntos fuzzy -- "baixo", "médio" e "alto" -- representados por funções de pertinência triangulares. Uma função triangular é determinada por três parâmetros $(a, b, c)$ e definida como:
+
+\begin{equation}
+\mu_{tri}(x; a, b, c) = \begin{cases}
+0 & \text{se } x \leq a \text{ ou } x \geq c \\
+\frac{x - a}{b - a} & \text{se } a < x < b \\
+\frac{c - x}{c - b} & \text{se } b < x < c \\
+1 & \text{se } x = b
+\end{cases}
+\end{equation}
+
+As funções triangulares são amplamente utilizadas em sistemas fuzzy pela simplicidade computacional e pela facilidade de interpretação~\cite{wang1997}. Embora não sejam suaves nos vértices, fornecem aproximações satisfatórias para muitos problemas práticos.
+
+\subsection{Determinação Orientada a Dados dos Parâmetros}
+
+Ao invés de definir parâmetros manualmente, utilizamos uma abordagem \textbf{data-driven} baseada em quantis da distribuição observada dos dados de treinamento. Para cada característica $f_i$, calculamos:
+
+\begin{itemize}
+    \item Percentil 0\%: $q_0 = \min(f_i)$
+    \item Percentil 33\%: $q_{33}$
+    \item Percentil 50\%: $q_{50}$ (mediana)
+    \item Percentil 66\%: $q_{66}$
+    \item Percentil 100\%: $q_{100} = \max(f_i)$
+\end{itemize}
+
+As funções de pertinência são então definidas como:
+\begin{align}
+\mu_{low}(x) &= \mu_{tri}(x; q_0, q_{33}, q_{50}) \\
+\mu_{medium}(x) &= \mu_{tri}(x; q_{33}, q_{50}, q_{66}) \\
+\mu_{high}(x) &= \mu_{tri}(x; q_{50}, q_{66}, q_{100})
+\end{align}
+
+Esta abordagem garante que as funções de pertinência reflitam a distribuição empírica dos dados, adaptando-se automaticamente às características de cada métrica.
+
+\subsection{Orientação e Regras Fuzzy}
+
+Para determinar se valores altos ou baixos de uma característica indicam texto autoral, comparamos as medianas dos dois grupos (autoral e LLM):
+
+\begin{itemize}
+    \item Se $\text{mediana}_{\text{autoral}}(f_i) > \text{mediana}_{\text{LLM}}(f_i)$, a orientação é \textbf{direta}: valores altos $\to$ autoral
+    \item Caso contrário, a orientação é \textbf{inversa}: valores baixos $\to$ autoral
+\end{itemize}
+
+Cada característica contribui com um ``voto'' para as hipóteses autoral ou LLM baseado no grau de pertinência. Por exemplo, para uma característica de orientação direta:
+\begin{align}
+\text{voto}_{\text{autoral}} &= \mu_{high}(x) + 0.5 \cdot \mu_{medium}(x) \\
+\text{voto}_{\text{LLM}} &= \mu_{low}(x) + 0.5 \cdot \mu_{medium}(x)
+\end{align}
+
+Para orientação inversa, os papéis de ``high'' e ``low'' são invertidos. A pertinência média ($\mu_{medium}$) contribui igualmente para ambas as classes, refletindo incerteza.
+
+\subsection{Sistema de Inferência e Classificação}
+
+Para classificar um texto com características $(x_1, x_2, \ldots, x_{10})$, agregamos os votos de todas as características por média aritmética:
+
+\begin{align}
+S_{\text{autoral}} &= \frac{1}{10} \sum_{i=1}^{10} \text{voto}_{\text{autoral}}^{(i)} \\
+S_{\text{LLM}} &= \frac{1}{10} \sum_{i=1}^{10} \text{voto}_{\text{LLM}}^{(i)}
+\end{align}
+
+Os scores são normalizados para fornecer probabilidades:
+\begin{equation}
+P(\text{autoral}) = \frac{S_{\text{autoral}}}{S_{\text{autoral}} + S_{\text{LLM}}}, \quad P(\text{LLM}) = \frac{S_{\text{LLM}}}{S_{\text{autoral}} + S_{\text{LLM}}}
+\end{equation}
+
+A classe predita é aquela com maior probabilidade. Este esquema de agregação simples corresponde a um sistema Takagi-Sugeno de ordem zero com pesos uniformes~\cite{takagi1985}. Operadores de agregação mais sofisticados (média ponderada, integrais fuzzy de Choquet ou Sugeno) poderiam ser explorados em trabalhos futuros.
+
+\subsection{Validação Cruzada e Avaliação}
+
+O classificador fuzzy é avaliado usando a mesma estratégia de validação cruzada estratificada (5 folds) empregada nos modelos estatísticos. Isso permite comparação direta e justa entre as abordagens. Para cada fold:
+
+\begin{enumerate}
+    \item As funções de pertinência são ajustadas nos dados de treinamento (determinação de quantis)
+    \item A orientação de cada característica é determinada comparando medianas
+    \item Predições são realizadas no conjunto de teste
+    \item Métricas de desempenho são calculadas: ROC AUC e Average Precision
+\end{enumerate}
+
+Reportamos a média e o desvio padrão de AUC e AP ao longo dos 5 folds. A implementação foi realizada no módulo \texttt{src/fuzzy.py}, com avaliação via \texttt{src/evaluate\_fuzzy.py}.
+
+\subsection{Vantagens da Abordagem Fuzzy}
+
+A principal vantagem do classificador fuzzy é a \textbf{interpretabilidade}: os graus de pertinência podem ser inspecionados para compreender \textit{por que} um texto foi classificado como autoral ou LLM. Por exemplo, podemos visualizar:
+\begin{itemize}
+    \item Quais características contribuíram mais para a decisão
+    \item Quão ``autoral-like'' ou ``LLM-like'' um texto é em cada dimensão
+    \item Casos de incerteza (alto $\mu_{medium}$ em várias características)
+\end{itemize}
+
+Esta transparência contrasta com modelos de caixa-preta (redes neurais profundas, por exemplo) e facilita a análise qualitativa e a depuração do sistema. Além disso, a abordagem fuzzy permite incorporar conhecimento especializado linguístico na construção das funções de pertinência, embora neste trabalho tenhamos optado pela determinação automática via quantis.

@@ -1,0 +1,223 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[Benjamini e Hochberg 1995]{benjamini1995}
+\abntrefinfo{Benjamini e Hochberg}{BENJAMINI; HOCHBERG}{1995}
+{BENJAMINI, Y.; HOCHBERG, Y. Controlling the false discovery rate.
+\textbf{Journal of the Royal Statistical Society B}, v.~57, p. 289--300, 1995.}
+
+\bibitem[Berriche e Larabi-Marie-Sainte 2024]{berriche2024}
+\abntrefinfo{Berriche e Larabi-Marie-Sainte}{BERRICHE;
+  LARABI-MARIE-SAINTE}{2024}
+{BERRICHE, L.; LARABI-MARIE-SAINTE, S. Unveiling chatgpt text using writing
+  style.
+\textbf{Heliyon}, v.~10, n.~12, p. e32611, June 2024.}
+
+\bibitem[Brennan e Greenstadt 2016]{brennan2016}
+\abntrefinfo{Brennan e Greenstadt}{BRENNAN; GREENSTADT}{2016}
+{BRENNAN, M.; GREENSTADT, R. Practical attacks against authorship recognition
+  techniques.
+\textbf{Proceedings on Privacy Enhancing Technologies}, v.~2016, n.~1, p.
+  81--96, 2016.}
+
+\bibitem[Burrows 2002]{burrows2002}
+\abntrefinfo{Burrows}{BURROWS}{2002}
+{BURROWS, J.~F. 'delta': A measure of stylistic difference and a guide to
+  likely authorship.
+\textbf{Literary and Linguistic Computing}, v.~17, n.~3, p. 267--287, 2002.}
+
+\bibitem[Clark et al. 2019]{boolq}
+\abntrefinfo{Clark et al.}{CLARK et al.}{2019}
+{CLARK, C. et al. Boolq: Exploring the surprising difficulty of natural yes/no
+  questions. In:  \textbf{Proceedings of the 2019 Conference of the North
+  American Chapter of the Association for Computational Linguistics: Human
+  Language Technologies}. [S.l.: s.n.], 2019.  (NAACL-HLT 2019), p.
+  2924--2936.}
+
+\bibitem[Cliff 1993]{cliff1993}
+\abntrefinfo{Cliff}{CLIFF}{1993}
+{CLIFF, N. Dominance statistics: Ordinal analyses to answer ordinal questions.
+\textbf{Psychological Bulletin}, v.~114, p. 494--509, 1993.}
+
+\bibitem[Cliff 1996]{cliff1996}
+\abntrefinfo{Cliff}{CLIFF}{1996}
+{CLIFF, N. \textbf{Ordinal Methods for Behavioral Data Analysis}. [S.l.]:
+  Psychology Press, 1996.}
+
+\bibitem[Corrêa et al. 2024]{correa2024}
+\abntrefinfo{Corrêa et al.}{CORRêA et al.}{2024}
+{CORRêA, N.~K. et al. Tucano: Advancing neural text generation for portuguese.
+\textbf{arXiv preprint arXiv:2411.07854}, 2024.
+GigaVerbo corpus with 200B tokens.}
+
+\bibitem[Davis e Goadrich 2006]{davis2006}
+\abntrefinfo{Davis e Goadrich}{DAVIS; GOADRICH}{2006}
+{DAVIS, J.; GOADRICH, M. The relationship between precision-recall and roc
+  curves. In:  \textbf{Proceedings of the 23rd International Conference on
+  Machine Learning}. [S.l.]: ACM, 2006.  (ICML '06), p. 233--240.}
+
+\bibitem[DominguesM 2023]{canarim}
+\abntrefinfo{DominguesM}{DOMINGUESM}{2023}
+{DOMINGUESM. \textbf{Canarim-Instruct-PTBR: Brazilian Portuguese QA dataset}.
+  2023. Hugging Face Dataset.
+Accessed: 2024.
+Dispon{\'\i}vel em:
+  \url{https://huggingface.co/datasets/dominguesm/Canarim-Instruct-PTBR}.}
+
+\bibitem[Fawcett 2006]{fawcett2006}
+\abntrefinfo{Fawcett}{FAWCETT}{2006}
+{FAWCETT, T. An introduction to roc analysis.
+\textbf{Pattern Recognition Letters}, v.~27, p. 861--874, 2006.}
+
+\bibitem[Filho et al. 2018]{brwac}
+\abntrefinfo{Filho et al.}{FILHO et al.}{2018}
+{FILHO, J.~A. W. et al. The brwac corpus: A new open resource for brazilian
+  portuguese. In:  \textbf{Proceedings of the Eleventh International Conference
+  on Language Resources and Evaluation}. [S.l.]: European Language Resources
+  Association (ELRA), 2018.  (LREC 2018), p. 4339--4344.}
+
+\bibitem[Fisher 1936]{fisher1936}
+\abntrefinfo{Fisher}{FISHER}{1936}
+{FISHER, R.~A. The use of multiple measurements in taxonomic problems.
+\textbf{Annals of Eugenics}, v.~7, p. 179--188, 1936.}
+
+\bibitem[FreedomIntelligence 2023]{sharegpt_portuguese}
+\abntrefinfo{FreedomIntelligence}{FREEDOMINTELLIGENCE}{2023}
+{FREEDOMINTELLIGENCE. \textbf{ShareGPT-Portuguese}. 2023. Hugging Face Dataset.
+Accessed: 2024.
+Dispon{\'\i}vel em:
+  \url{https://huggingface.co/datasets/FreedomIntelligence/sharegpt-portuguese}.}
+
+\bibitem[Harris et al. 2020]{numpy}
+\abntrefinfo{Harris et al.}{HARRIS et al.}{2020}
+{HARRIS, C.~R. et al. Array programming with numpy.
+\textbf{Nature}, v.~585, p. 357--362, 2020.}
+
+\bibitem[Herbold et al. 2023]{stylometric_llm_detection}
+\abntrefinfo{Herbold et al.}{HERBOLD et al.}{2023}
+{HERBOLD, S. et al. A large-scale comparison of human-written versus
+  chatgpt-generated essays.
+\textbf{Scientific Data}, v.~10, p. Article 802, 2023.
+Also available as arXiv:2311.15636.}
+
+\bibitem[Herdan 1960]{herdan1960}
+\abntrefinfo{Herdan}{HERDAN}{1960}
+{HERDAN, G. \textbf{Type-token Mathematics}. [S.l.]: Mouton, 1960.}
+
+\bibitem[Hosmer e Lemeshow 2013]{hosmer2013}
+\abntrefinfo{Hosmer e Lemeshow}{HOSMER; LEMESHOW}{2013}
+{HOSMER, D.~W.; LEMESHOW, S. \textbf{Applied Logistic Regression}. [S.l.]:
+  Wiley, 2013.}
+
+\bibitem[Huang, Chen e Shu 2024]{huang2024}
+\abntrefinfo{Huang, Chen e Shu}{HUANG; CHEN; SHU}{2024}
+{HUANG, B.; CHEN, C.; SHU, K. Authorship attribution in the era of llms:
+  Problems, methodologies, and challenges.
+\textbf{ACM SIGKDD Explorations Newsletter}, v.~26, n.~1, p. 1--15, August
+  2024.}
+
+\bibitem[Hunter 2007]{matplotlib}
+\abntrefinfo{Hunter}{HUNTER}{2007}
+{HUNTER, J.~D. Matplotlib: A 2d graphics environment.
+\textbf{Computing in Science Engineering}, 2007.}
+
+\bibitem[Jolliffe 2002]{jolliffe2002}
+\abntrefinfo{Jolliffe}{JOLLIFFE}{2002}
+{JOLLIFFE, I.~T. \textbf{Principal Component Analysis}. [S.l.]: Springer,
+  2002.}
+
+\bibitem[Kohavi 1995]{kohavi1995}
+\abntrefinfo{Kohavi}{KOHAVI}{1995}
+{KOHAVI, R. A study of cross-validation and bootstrap for accuracy estimation
+  and model selection. In:  \textbf{Proceedings of the 14th International Joint
+  Conference on Artificial Intelligence}. [S.l.]: Morgan Kaufmann, 1995.
+  (IJCAI '95, v.~2), p. 1137--1145.}
+
+\bibitem[Madsen, Kauchak e Elkan 2005]{madsen2005}
+\abntrefinfo{Madsen, Kauchak e Elkan}{MADSEN; KAUCHAK; ELKAN}{2005}
+{MADSEN, R.~E.; KAUCHAK, D.; ELKAN, C. Modeling word burstiness using the
+  dirichlet distribution. In:  \textbf{Proceedings of the 22nd International
+  Conference on Machine Learning}. [S.l.]: ACM, 2005.  (ICML '05), p.
+  545--552.}
+
+\bibitem[Mann e Whitney 1947]{mann1947}
+\abntrefinfo{Mann e Whitney}{MANN; WHITNEY}{1947}
+{MANN, H.~B.; WHITNEY, D.~R. On a test of whether one of two random variables
+  is stochastically larger than the other.
+\textbf{The Annals of Mathematical Statistics}, p. 50--60, 1947.}
+
+\bibitem[McCarthy e Jarvis 2010]{mccarthy2010}
+\abntrefinfo{McCarthy e Jarvis}{MCCARTHY; JARVIS}{2010}
+{MCCARTHY, P.~M.; JARVIS, S. Mtld, vocd-d, and hd-d: A validation study of
+  sophisticated approaches to lexical diversity assessment.
+\textbf{Behavior Research Methods}, v.~42, n.~2, p. 381--392, 2010.}
+
+\bibitem[McKinney 2010]{pandas}
+\abntrefinfo{McKinney}{MCKINNEY}{2010}
+{MCKINNEY, W. Data structures for statistical computing in python. In:
+  \textbf{Proceedings of the 9th Python in Science Conference}. [S.l.: s.n.],
+  2010.  (SciPy 2010), p. 56--61.}
+
+\bibitem[McLachlan 2004]{mclachlan2004}
+\abntrefinfo{McLachlan}{MCLACHLAN}{2004}
+{MCLACHLAN, G.~J. \textbf{Discriminant Analysis and Statistical Pattern
+  Recognition}. [S.l.]: Wiley, 2004.}
+
+\bibitem[Mosteller e Wallace 1964]{mosteller1964}
+\abntrefinfo{Mosteller e Wallace}{MOSTELLER; WALLACE}{1964}
+{MOSTELLER, F.; WALLACE, D.~L. \textbf{Inference and Disputed Authorship: The
+  Federalist}. [S.l.]: Addison-Wesley, 1964.}
+
+\bibitem[Pedregosa et al. 2011]{scikit-learn}
+\abntrefinfo{Pedregosa et al.}{PEDREGOSA et al.}{2011}
+{PEDREGOSA, F. et al. Scikit-learn: Machine learning in python.
+\textbf{JMLR}, v.~12, p. 2825--2830, 2011.}
+
+\bibitem[Piau, Lotufo e Nogueira 2024]{piau2024}
+\abntrefinfo{Piau, Lotufo e Nogueira}{PIAU; LOTUFO; NOGUEIRA}{2024}
+{PIAU, M.; LOTUFO, R.; NOGUEIRA, R. ptt5-v2: A closer look at continued
+  pretraining of t5 models for the portuguese language. In:
+  \textbf{Proceedings of the 2024 Brazilian Conference on Intelligent Systems}.
+  [S.l.]: Springer, 2024.  (BRACIS 2024).}
+
+\bibitem[Przystalski et al. 2025]{przystalski2025}
+\abntrefinfo{Przystalski et al.}{PRZYSTALSKI et al.}{2025}
+{PRZYSTALSKI, K. et al. Stylometry recognizes human and llm-generated texts in
+  short samples.
+\textbf{Expert Systems with Applications}, v.~262, p. 125418, 2025.}
+
+\bibitem[Richards 1987]{richards1987}
+\abntrefinfo{Richards}{RICHARDS}{1987}
+{RICHARDS, B.~J. Type/token ratios: what do they really tell us?
+\textbf{Journal of Child Language}, v.~14, n.~2, p. 201--209, 1987.}
+
+\bibitem[Romano et al. 2006]{romano2006}
+\abntrefinfo{Romano et al.}{ROMANO et al.}{2006}
+{ROMANO, J. et al. Appropriate statistics for ordinal level data: Should we
+  really be using t-test and cohen's d for evaluating group differences on the
+  nsse and other surveys? In:  \textbf{Proceedings of the Annual Meeting of the
+  Florida Association of Institutional Research}. [S.l.: s.n.], 2006.
+  Conference presentation on Cliff's delta thresholds.}
+
+\bibitem[Shannon 1948]{shannon1948}
+\abntrefinfo{Shannon}{SHANNON}{1948}
+{SHANNON, C.~E. A mathematical theory of communication.
+\textbf{Bell System Technical Journal}, v.~27, n.~3, p. 379--423, 1948.}
+
+\bibitem[Stamatatos 2009]{stamatatos2009}
+\abntrefinfo{Stamatatos}{STAMATATOS}{2009}
+{STAMATATOS, E. A survey of modern authorship attribution methods.
+\textbf{Journal of the American Society for Information Science and
+  Technology}, v.~60, n.~3, p. 538--556, 2009.}
+
+\bibitem[Zaitsu e Jin 2023]{zaitsu2023}
+\abntrefinfo{Zaitsu e Jin}{ZAITSU; JIN}{2023}
+{ZAITSU, W.; JIN, M. Distinguishing chatgpt(-3.5, -4)-generated and
+  human-written papers through japanese stylometric analysis.
+\textbf{PLOS One}, v.~18, n.~8, p. e0289630, August 2023.}
+
+\end{thebibliography}

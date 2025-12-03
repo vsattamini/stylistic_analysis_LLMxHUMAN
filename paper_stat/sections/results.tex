@@ -1,10 +1,117 @@
 % Results
 
-\noindent
-% Present key findings from the statistical analysis.  Include tables of
-% descriptive statistics and effect sizes for each feature (medians for human vs
-% LLM texts, p--values, q--values, Cliff's \(\delta\)).  Provide figures:
-% histograms, boxplots or violin plots illustrating the distribution of
-% selected features; PCA scatter plots showing separation of classes; ROC and
-% precision--recall curves for the classifiers.  Summarise classification
-% performance with AUC and average precision scores.
+\subsection{Comparação Estatística das Características}
+
+A Tabela~\ref{tab:statistical_tests} apresenta os resultados dos testes U de Mann--Whitney para todas as 10 características estilométricas. Nove das dez características mostram diferenças altamente significativas ($p < 0.001$) entre textos humanos e de LLM, mantendo-se significativas após correção FDR ($q < 0.001$). A única exceção é \texttt{fk\_grade}, que retornou valores zero para ambas as classes por ser uma métrica específica para inglês, resultando em $p = 1.000$ como esperado.
+
+Os tamanhos de efeito, medidos pelo delta de Cliff, revelam que \textbf{seis características} apresentam efeitos \textbf{grandes} ($|\delta| \geq 0.474$): \texttt{char\_entropy} ($\delta = -0.881$), \texttt{sent\_std} ($\delta = -0.790$), \texttt{sent\_burst} ($\delta = -0.663$), \texttt{ttr} ($\delta = 0.616$), \texttt{hapax\_prop} ($\delta = 0.564$) e \texttt{sent\_std} ($\delta = -0.790$). Três características apresentam efeitos \textbf{médios}: \texttt{herdan\_c} ($\delta = 0.450$), \texttt{bigram\_repeat\_ratio} ($\delta = -0.424$) e \texttt{func\_word\_ratio} ($\delta = 0.378$). Apenas \texttt{first\_person\_ratio} ($\delta = -0.049$) apresenta efeito negligenciável.
+
+\begin{table}[htbp]
+\centering
+\caption{Resultados dos testes U de Mann--Whitney comparando características estilométricas entre textos humanos e de LLM. Valores-$q$ ajustados por FDR (Benjamini--Hochberg). H = humano.}
+\label{tab:statistical_tests}
+\small
+\begin{tabular}{lrrrrc}
+\toprule
+Característica & Mediana (H) & Mediana (LLM) & $p$-valor & Delta de Cliff & Efeito \\
+\midrule
+\texttt{sent\_mean} & 20.000 & 16.500 & $<0.001$ & $-0.290$ & Pequeno \\
+\texttt{sent\_std} & 12.487 & 4.528 & $<0.001$ & $-0.790$ & Grande \\
+\texttt{sent\_burst} & 0.640 & 0.319 & $<0.001$ & $-0.663$ & Grande \\
+\texttt{ttr} & 0.570 & 0.735 & $<0.001$ & $+0.616$ & Grande \\
+\texttt{herdan\_c} & 0.903 & 0.929 & $<0.001$ & $+0.450$ & Médio \\
+\texttt{hapax\_prop} & 0.417 & 0.581 & $<0.001$ & $+0.564$ & Grande \\
+\texttt{char\_entropy} & 4.560 & 4.254 & $<0.001$ & $-0.881$ & Grande \\
+\texttt{func\_word\_ratio} & 0.312 & 0.347 & $<0.001$ & $+0.378$ & Médio \\
+\texttt{first\_person\_ratio} & 0.002 & 0.000 & $1.6 \times 10^{-47}$ & $-0.049$ & Negligível \\
+\texttt{bigram\_repeat\_ratio} & 0.066 & 0.030 & $<0.001$ & $-0.424$ & Médio \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Interpretação das Características Discriminantes}
+
+As características mais discriminantes revelam padrões consistentes:
+
+\noindent\textbf{Textos humanos são caracterizados por:}
+\begin{itemize}
+    \item \textbf{Maior diversidade em nível de caractere:} a entropia de caracteres ($\delta = -0.881$) é substancialmente maior, indicando distribuições de caracteres mais heterogêneas.
+    \item \textbf{Maior variabilidade estrutural:} desvio padrão do comprimento de frases ($\delta = -0.790$) e burstiness ($\delta = -0.663$) são ambos elevados, refletindo estruturas sintáticas mais irregulares.
+    \item \textbf{Maior repetição de bigramas:} textos humanos tendem a repetir combinações de palavras com maior frequência ($\delta = -0.424$).
+\end{itemize}
+
+\noindent\textbf{Textos de LLM são caracterizados por:}
+\begin{itemize}
+    \item \textbf{Maior diversidade lexical:} TTR ($\delta = +0.616$) e proporção de hapax ($\delta = +0.564$) elevados indicam vocabulário menos repetitivo, possivelmente devido ao treinamento em corpora extremamente diversos.
+    \item \textbf{Maior uso de palavras funcionais:} proporção de palavras funcionais ($\delta = +0.378$) ligeiramente superior, sugerindo estilo mais formal ou explícito.
+    \item \textbf{Maior uniformidade estrutural:} menor variação no comprimento de frases, gerando textos mais ``regulares''.
+\end{itemize}
+
+A Figura~\ref{fig:boxplots} apresenta boxplots para todas as características, ilustrando graficamente essas diferenças. As medianas, quartis e outliers confirmam visualmente a separação entre as distribuições.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{../figure_boxplots.png}
+\caption{Boxplots comparando as distribuições de características estilométricas entre textos humanos (azul) e de LLM (vermelho). Asteriscos indicam significância estatística: *** = $p < 0.001$.}
+\label{fig:boxplots}
+\end{figure}
+
+\subsection{Análise de Componentes Principais}
+
+A análise de componentes principais revela que os dois primeiros componentes (PC1 e PC2) explicam cumulativamente \textbf{54,15\% da variância} dos dados: PC1 explica 38,11\% e PC2 explica 16,03\%. A Figura~\ref{fig:pca} mostra o gráfico de dispersão no espaço PC1--PC2, onde se observa \textbf{separação clara} entre as duas classes, embora com alguma sobreposição.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{../pca_scatter.png}
+\caption{Gráfico de dispersão dos dois primeiros componentes principais (PC1 vs PC2). Textos humanos (azul) concentram-se em PC1 negativo e PC2 positivo; textos de LLM (vermelho) em PC1 positivo e PC2 negativo.}
+\label{fig:pca}
+\end{figure}
+
+Os \textit{loadings} de PC1 indicam que este componente representa um eixo de ``LLM-ness'': características como TTR, hapax e Herdan's C têm pesos positivos (favorecem LLM), enquanto burstiness, desvio padrão de frases e entropia de caracteres têm pesos negativos (favorecem textos humanos). PC2 representa primariamente variabilidade estrutural (burstiness e desvio padrão têm pesos positivos altos).
+
+A Figura~\ref{fig:correlation} apresenta a matriz de correlação entre as características. Observa-se forte correlação positiva entre TTR, hapax e Herdan's C ($r > 0.7$), formando um cluster de diversidade lexical. Sent\_std e sent\_burst também são fortemente correlacionados ($r = 0.72$), como esperado pela definição de burstiness ($\sigma/\mu$).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{../figure_correlation_heatmap.png}
+\caption{Matriz de correlação de Pearson entre as características estilométricas. Cores quentes (vermelho) indicam correlação positiva; cores frias (azul) indicam correlação negativa.}
+\label{fig:correlation}
+\end{figure}
+
+\subsection{Desempenho dos Classificadores}
+
+A Tabela~\ref{tab:classification} resume o desempenho dos dois classificadores lineares em validação cruzada estratificada (5 folds). Ambos os modelos alcançam desempenho excelente, com \textbf{regressão logística superando LDA} em aproximadamente 3 pontos percentuais.
+
+\begin{table}[htbp]
+\centering
+\caption{Desempenho dos classificadores em validação cruzada (5 folds). Média ± desvio padrão.}
+\label{tab:classification}
+\begin{tabular}{lcc}
+\toprule
+Modelo & ROC AUC & Average Precision \\
+\midrule
+LDA & $0.9412 \pm 0.0017$ & $0.9457 \pm 0.0015$ \\
+Regressão Logística & $0.9703 \pm 0.0014$ & $0.9717 \pm 0.0012$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A regressão logística atinge \textbf{ROC AUC de 97,03\%}, demonstrando capacidade quase perfeita de distinguir textos humanos de textos de LLM. O desvio padrão extremamente baixo ($\pm 0.14\%$) indica alta estabilidade do modelo através dos folds. A LDA, embora ligeiramente inferior, ainda alcança excelente desempenho (94,12\% AUC), confirmando que a separação linear é suficiente para este problema.
+
+As Figuras~\ref{fig:roc} e~\ref{fig:pr} apresentam as curvas ROC e Precision--Recall, respectivamente, agregadas através dos 5 folds. As bandas de confiança ($\pm 1$ desvio padrão) são estreitas, refletindo a consistência dos resultados.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figure_roc_stat.png}
+\caption{Curvas ROC para LDA e regressão logística. Linhas sólidas representam a média dos 5 folds; áreas sombreadas indicam $\pm 1$ desvio padrão. A linha tracejada representa o classificador aleatório (AUC = 0.50).}
+\label{fig:roc}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figure_pr_stat.png}
+\caption{Curvas Precision--Recall para LDA e regressão logística. Ambos os modelos mantêm alta precisão mesmo em altos níveis de recall, indicando baixas taxas de falsos positivos e falsos negativos.}
+\label{fig:pr}
+\end{figure}
+
+Os resultados demonstram que métodos estatísticos clássicos são altamente eficazes para distinguir textos autorais de textos gerados por LLMs em português do Brasil, confirmando achados anteriores em língua inglesa e estendendo-os para outro idioma e contexto.

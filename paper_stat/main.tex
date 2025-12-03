@@ -1,40 +1,72 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
+\usepackage[brazilian]{babel}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{natbib}
-\usepackage{hyperref}
+\usepackage[alf,abnt-emphasize=bf,abnt-repeated-title-ignore=yes,abnt-thesis-year=final]{abntex2cite}
+\makeatletter
+\@ifpackageloaded{hyperref}{%
+  \usepackage[hyperfootnotes=false]{hyperref}%
+}{%
+  \usepackage[hyperfootnotes=false]{hyperref}%
+}
+\makeatother
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 
-\title{Stylometric Analysis of Human and LLM Texts Using Statistical Methods}
-\author{Your Name\\Department\\Institution}
-\date{\today}
+% Redefinir nome da seção de referências
+\renewcommand{\refname}{Referências}
+
+\title{Análise Estilométrica de Textos Humanos e de LLMs Usando Métodos Estatísticos}
+\author{Victor Löfgren Sattamini\\Programa de Pós-Graduação em Ciências Computacionais e Modelagem Matemática (PPG-CompMat)\\IME UERJ}
+\date{10 de Novembro de 2025}
 
 \begin{document}
+
+% Redefinir maketitle para garantir centralização
+\makeatletter
+\renewcommand{\@maketitle}{%
+  \newpage
+  \null
+  \vskip 2em%
+  \begin{center}%
+  \let \footnote \thanks
+    {\LARGE \@title \par}%
+    \vskip 1.5em%
+    {\large
+      \lineskip .5em%
+      \begin{center}%
+        \@author
+      \end{center}\par}%
+    \vskip 1em%
+    {\large \@date}%
+  \end{center}%
+  \par
+  \vskip 1.5em}
+\makeatother
 
 \maketitle
 
 \begin{abstract}
-% Briefly summarise the motivation, methods and main findings of the statistical analysis.
+\noindent
+A detecção de textos gerados por modelos de linguagem de grande porte (LLMs) tornou-se uma preocupação crescente em contextos acadêmicos, educacionais e de moderação de conteúdo. Este trabalho apresenta uma primeira análise estilométrica para detecção de textos gerados por LLMs em português do Brasil. Utilizamos um corpus balanceado de 100.000 amostras (50.000 autorais, 50.000 de LLMs) extraídas de múltiplas fontes, incluindo BrWaC, ShareGPT-Portuguese e Canarim. Aplicamos 10 características estilométricas (comprimento médio de frases, relação tipo-token, entropia de caracteres, burstiness, entre outras) e realizamos testes não paramétricos (Mann-Whitney U) com correção FDR e análise de tamanho de efeito (delta de Cliff). Seis características apresentaram efeitos grandes ($|\delta| \geq 0,474$), sendo a entropia de caracteres a mais discriminante ($\delta = -0,881$). Aplicamos análise de componentes principais (PCA) e dois classificadores lineares: análise discriminante linear (LDA) e regressão logística, ambos avaliados em validação cruzada estratificada de 5 folds. A regressão logística alcançou ROC AUC de 97,03\% ($\pm 0,14\%$), enquanto a LDA obteve 94,12\% ($\pm 0,17\%$). Os resultados demonstram que métodos estatísticos clássicos são altamente eficazes para distinguir textos autorais de LLMs em português, confirmando achados anteriores em inglês e estendendo-os para outro idioma. Identificamos padrões contra-intuitivos: textos autorais são mais variáveis estruturalmente (maior burstiness e entropia), enquanto LLMs são mais diversos lexicalmente (maior TTR e proporção de hapax). Este trabalho estabelece uma base sólida para detecção estilométrica de LLMs em português e demonstra que assinaturas estilísticas humanas permanecem detectáveis através de análise estatística.
 \end{abstract}
 
-\section{Introduction}
+\section{Introdução}
 \input{sections/intro.tex}
 
-\section{Methods}
+\section{Métodos}
 \input{sections/methods.tex}
 
-\section{Results}
+\section{Resultados}
 \input{sections/results.tex}
 
-\section{Discussion}
+\section{Discussão}
 \input{sections/discussion.tex}
 
-\section{Conclusion}
+\section{Conclusão}
 \input{sections/conclusion.tex}
 
-\bibliographystyle{plainnat}
 \bibliography{refs}
 
 \end{document}

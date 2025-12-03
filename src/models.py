@@ -139,12 +139,14 @@ def plot_pca_scatter(comp_df: pd.DataFrame, label_col: str = "label", out_path: 
     if "PC1" not in comp_df.columns or "PC2" not in comp_df.columns:
         raise KeyError("PCA results must contain 'PC1' and 'PC2'")
     plt.figure(figsize=(6, 5))
+    label_map = {'human': 'Humano', 'llm': 'LLM'}
     for label in comp_df[label_col].unique():
         subset = comp_df[comp_df[label_col] == label]
-        plt.scatter(subset["PC1"], subset["PC2"], label=str(label), alpha=0.6, s=20)
+        display_label = label_map.get(str(label).lower(), str(label))
+        plt.scatter(subset["PC1"], subset["PC2"], label=display_label, alpha=0.6, s=20)
     plt.xlabel("PC1")
     plt.ylabel("PC2")
-    plt.title("PCA Scatter Plot")
+    plt.title("Gráfico de Dispersão PCA")
     plt.legend()
     plt.tight_layout()
     plt.savefig(out_path)

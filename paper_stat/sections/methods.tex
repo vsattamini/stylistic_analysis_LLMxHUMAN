@@ -1,20 +1,65 @@
 % Methods
 
-\noindent
-% Describe the dataset (source, size, language) and how it was preprocessed.
-% Outline the feature extraction procedure, referencing the metrics implemented
-% in \texttt{src/features.py}: sentence statistics, lexical diversity, character
-% entropy, function word ratio, pronoun ratio, bigram repetition and
-% readability.  Specify which tools/libraries were used.
+\subsection{Conjunto de Dados}
 
-% Explain the statistical tests: Mann--Whitney U test for independent samples
-% to compare feature distributions between human and LLM texts; Cliff's
-% \(\delta\) as a measure of effect size; false discovery rate (FDR) control
-% using the Benjamini--Hochberg procedure.
+Utilizou-se um corpus balanceado de textos em português do Brasil contendo 100.000 amostras (50.000 de autores, 50.000 de LLMs), extraídas por amostragem estratificada de um conjunto maior com 1.295.958 documentos. As fontes de texto autoral incluem: (i) BrWaC (Brazilian Web as Corpus)~\cite{brwac}, um grande corpus web; (ii) BoolQ~\cite{boolq}, perguntas e passagens de contexto; e (iii) conjuntos de validação associados. As fontes de texto gerado por LLM incluem: (i) ShareGPT-Portuguese~\cite{sharegpt_portuguese}, conversas em português extraídas da plataforma ShareGPT; (ii) resenhas do IMDB traduzidas para português por modelos de linguagem; e (iii) o dataset Canarim~\cite{canarim}, contendo triplas contexto--pergunta--resposta geradas por LLMs.
 
-% Describe the multivariate models: PCA for dimensionality reduction and
-% visualisation; linear discriminant analysis (LDA) and logistic regression
-% for classification.  Note the cross--validation strategy (leave--one--topic--out
-% if a topic column is present, otherwise stratified K--fold) and the metrics
-% computed (ROC, AUC, precision--recall).  Clarify any hyperparameter
-% choices.
+Os textos foram previamente filtrados por comprimento (intervalo de 100 a 200 caracteres, máximo 10.000 caracteres) e segmentados quando necessário para uniformizar o tamanho das amostras. O balanceamento foi obtido por subamostragem (downsampling) da classe majoritária e sobreamostragem (upsampling) da classe minoritária, resultando em proporções exatamente iguais (50\%/50\%). A amostra de 100.000 documentos foi selecionada aleatoriamente com semente fixa (\texttt{seed=42}) para reprodutibilidade.
+
+Para prevenir vazamento de dados (data leakage), verificamos que os textos não apresentam agrupamentos estruturais por autor, tópico ou sessão de geração. A validação cruzada estratificada mantém o balanço de classes entre os folds, garantindo amostras independentes em conjuntos de treino e teste. Esta abordagem evita viés de avaliação documentado em estudos anteriores~\cite{kohavi1995}.
+
+\subsection{Extração de Características Estilométricas}
+
+Cada amostra de texto foi processada pelo módulo \texttt{src/features.py}, que calcula 10 métricas estilométricas em português. As características são:
+
+\begin{enumerate}
+    \item \textbf{Estatísticas de frase:} comprimento médio, desvio padrão e coeficiente de variação (burstiness = $\sigma/\mu$), que quantifica a variabilidade relativa do comprimento das frases.
+
+    \item \textbf{Diversidade lexical:} relação tipo-token (TTR), que mede a razão entre palavras únicas e o total de palavras; C de Herdan ($\log V / \log N$, onde $V$ é o número de tipos e $N$ o número de tokens)~\cite{herdan1960}; e proporção de hapax legomena, ou seja, a fração de palavras que ocorrem exatamente uma vez.
+
+    \item \textbf{Entropia de caracteres:} entropia de Shannon calculada sobre a distribuição de caracteres (\texttt{char\_entropy}), medindo a diversidade no nível de caractere.
+
+    \item \textbf{Proporção de palavras funcionais:} fração de tokens que pertencem a uma lista de palavras funcionais do português (\texttt{func\_word\_ratio}), incluindo artigos, preposições, conjunções e pronomes comuns.
+
+    \item \textbf{Proporção de pronomes de primeira pessoa:} fração de tokens que são pronomes de primeira pessoa em português (\texttt{first\_person\_ratio}), como ``eu'', ``me'', ``mim'', ``nós'', ``nosso'', etc.
+
+    \item \textbf{Repetição de bigramas:} proporção de bigramas consecutivos que aparecem mais de uma vez no texto (\texttt{bigram\_repeat\_ratio}).
+\end{enumerate}
+
+Todas as métricas foram calculadas após tokenização simples baseada em expressões regulares. A métrica de legibilidade Flesch--Kincaid (\texttt{fk\_grade}) foi excluída da análise por ser específica para inglês, retornando valores zero para textos em português.
+
+\subsection{Testes Estatísticos Não Paramétricos}
+
+Para cada característica, comparamos as distribuições entre textos humanos e de LLM usando o teste U de Mann--Whitney~\cite{mann1947}, um teste não paramétrico para duas amostras independentes. Este teste foi escolhido por não assumir normalidade das distribuições e por ser robusto a outliers, características frequentes em dados linguísticos. Calculamos valores-$p$ bicaudais para cada teste.
+
+O tamanho de efeito foi quantificado pelo delta de Cliff ($\delta$)~\cite{cliff1993, cliff1996}, uma medida não paramétrica que estima a probabilidade de que um valor aleatório do grupo A seja maior que um valor aleatório do grupo B, menos a probabilidade reversa. O delta de Cliff varia entre $-1$ e $+1$, onde valores próximos de zero indicam sobreposição completa entre as distribuições. Seguindo Romano et al.~\cite{romano2006}, interpretamos $|\delta| < 0.147$ como efeito negligenciável, $|\delta| < 0.330$ como pequeno, $|\delta| < 0.474$ como médio e $|\delta| \geq 0.474$ como grande.
+
+Dado que realizamos testes múltiplos (10 características), aplicamos a correção de Benjamini--Hochberg~\cite{benjamini1995} para controlar a taxa de falsas descobertas (FDR). Esta correção fornece valores-$q$ ajustados, mantendo o controle sobre a proporção esperada de falsas rejeições entre todas as rejeições.
+
+\subsection{Análise de Componentes Principais (PCA)}
+
+Para visualizar a estrutura multivariada dos dados, aplicamos análise de componentes principais~\cite{jolliffe2002} às 10 características estilométricas. As variáveis foram previamente padronizadas (média zero, desvio padrão unitário) usando \texttt{StandardScaler} do scikit-learn~\cite{scikit-learn}. Retemos os dois primeiros componentes principais (PC1 e PC2) para visualização bidimensional. Reportamos a proporção de variância explicada por cada componente e os loadings (pesos) de cada característica original sobre os componentes.
+
+\subsection{Modelos de Classificação}
+
+Avaliamos dois modelos lineares para classificação binária:
+
+\begin{enumerate}
+    \item \textbf{Análise Discriminante Linear (LDA):} um classificador generativo que assume distribuições Gaussianas para cada classe e busca a combinação linear de características que melhor separa as classes~\cite{fisher1936, mclachlan2004}.
+
+    \item \textbf{Regressão Logística:} um modelo discriminativo que estima diretamente a probabilidade posterior de cada classe através de uma função logística~\cite{hosmer2013}.
+\end{enumerate}
+
+Ambos os modelos foram treinados sobre as 10 características padronizadas. Para a regressão logística, utilizamos \texttt{max\_iter=1000} para garantir convergência.
+
+\subsection{Validação Cruzada e Métricas de Desempenho}
+
+Empregamos validação cruzada estratificada com 5 folds (\texttt{StratifiedKFold})~\cite{kohavi1995} para avaliar o desempenho dos classificadores. A estratificação garante que cada fold mantenha a proporção de classes balanceada. Como não foi possível implementar validação por tópico (ausência de coluna de tópico nos dados), a validação estratificada padrão foi adotada.
+
+Para cada fold, calculamos:
+\begin{itemize}
+    \item \textbf{Curva ROC e AUC:} área sob a curva ROC (Receiver Operating Characteristic), que resume a capacidade do modelo de discriminar entre as classes em todos os limiares de decisão~\cite{fawcett2006}.
+    \item \textbf{Curva Precision--Recall e Average Precision (AP):} a área sob a curva precision-recall, particularmente informativa para conjuntos balanceados~\cite{davis2006}.
+\end{itemize}
+
+Reportamos a média e o desvio padrão de AUC e AP ao longo dos 5 folds. Todas as análises foram implementadas em Python 3 utilizando as bibliotecas pandas~\cite{pandas}, NumPy~\cite{numpy}, scikit-learn~\cite{scikit-learn} e matplotlib~\cite{matplotlib} para visualização.

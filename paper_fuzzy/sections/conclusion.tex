@@ -1,11 +1,24 @@
-% Conclusion for fuzzy logic paper
-
 \noindent
-% Summarise the contributions of applying fuzzy set theory to stylometric
-% classification.  Emphasise that by reusing the same feature set
-% extracted for the statistical analysis, the fuzzy approach provided
-% additional interpretability and a complementary perspective on the
-% data.  Conclude that fuzzy inference is a viable tool for
-% approximate reasoning in text analysis and point to future work on
-% refining membership functions and integrating fuzzy logic with other
-% machine learning methods.
+Este trabalho apresentou um \textbf{classificador baseado em lógica fuzzy para detecção de textos gerados por modelos de linguagem de grande porte (LLMs) em português do Brasil}. Utilizando funções de pertinência triangulares simples e um sistema de inferência baseado em média, alcançamos um desempenho de 89,34% em ROC AUC - resultado que demonstra a viabilidade de sistemas fuzzy interpretáveis para esta tarefa.
+
+As principais contribuições podem ser resumidas da seguinte forma:
+
+\begin{enumerate}
+\item \textbf{Aplicação de lógica fuzzy na detecção de textos gerados por LLMs:} o trabalho amplia a literatura de estilometria e detecção de texto automático ao introduzir uma abordagem alternativa aos métodos estatísticos e de aprendizado de máquina convencionais.
+
+\item \textbf{Sistema orientado a dados e livre de conhecimento especialista:} os parâmetros das funções de pertinência foram determinados a partir de quantis das distribuições observadas, eliminando a necessidade de ajustes manuais e tornando o método escalável, objetivo e reproduzível.
+
+\item \textbf{Quantificação do custo de oportunidade entre interpretabilidade e desempenho:} foi demonstrado que o custo da explicabilidade é modesto (cerca de 8\% de perda em AUC), o que torna o modelo adequado para cenários em que transparência e auditabilidade são prioritárias.
+
+\item \textbf{Alta robustez:} o classificador fuzzy apresentou variância 3–4× menor que a observada em métodos comparativos, indicando maior estabilidade sob diferentes amostras e condições de teste.
+
+\item \textbf{Visualizações linguísticas interpretáveis:} as funções de pertinência e seus graus de ativação oferecem uma compreensão direta de como cada métrica estilométrica contribui para distinguir textos autorais de textos produzidos por LLMs.
+
+
+\end{enumerate}
+
+O desempenho obtido evidencia que sistemas fuzzy podem competir com abordagens mais complexas, preservando vantagens cruciais de interpretabilidade e transparência. Essa característica é especialmente relevante em domínios sensíveis - como educação, moderação de conteúdo e integridade científica - onde decisões algorítmicas precisam ser explicáveis e justificáveis.
+
+As principais limitações do presente estudo incluem a simplicidade da modelagem (funções triangulares e agregação média) e a ausência de testes em contextos temáticos especializados. Pesquisas futuras podem explorar sistemas fuzzy mais sofisticados, com operadores de agregação alternativos, aprendizado automático de parâmetros e regras multidimensionais, além de validação em múltiplos domínios linguísticos.
+
+Em síntese, \textbf{a lógica fuzzy representa um caminho promissor para a detecção interpretável de textos gerados por LLMs}, servindo como ponte entre modelos estatísticos e métodos baseados em aprendizado profundo. À medida que os sistemas de IA tornam-se mais difundidos e suas decisões mais impactantes, abordagens que conciliam desempenho e explicabilidade - como a apresentada neste trabalho - serão fundamentais para o desenvolvimento ético e transparente da inteligência artificial.

@@ -1,47 +1,14 @@
-% Introduction for fuzzy logic paper
-
 \noindent
-Além da abordagem estatística, exploramos a aplicação de conjuntos fuzzy para distinguir textos humanos de textos de LLM. A teoria de conjuntos fuzzy foi proposta por Lotfi Zadeh em 1965 e introduziu a noção de pertencimento gradual: elementos podem pertencer a um conjunto com graus entre 0 e 1, representados por uma função de pertinência
-tutorialspoint.com
-. Essa função mapeia cada elemento do universo para um valor no intervalo [0, 1], caracterizando a “fuzziness” – toda a informação sobre o conjunto
-tutorialspoint.com
-. Conceitos como núcleo (região com pertencimento total), suporte (região com pertencimento não‑nulo) e fronteira (região de pertencimento parcial) auxiliam a descrever a topologia de uma função de pertinência
-tutorialspoint.com
-. As funções de pertinência foram introduzidas por Zadeh em sua pesquisa seminal
-tutorialspoint.com
- e podem ser representadas graficamente, sendo construídas de acordo com a experiência ou com o conhecimento acumulado sobre o fenômeno analisado
-tutorialspoint.com
-.
+Neste trabalho, exploramos o uso de lógica fuzzy como método de detecção de textos gerados por modelos de linguagem de grande porte (LLMs). Para isso, construímos um classificador fuzzy baseado em métricas estilométricas - propriedades da escrita que capturam padrões linguísticos, sintáticos e semânticos. Cada métrica é associada a uma função de pertinência que expressa o grau de pertencimento de um texto a variáveis linguísticas interpretáveis, como "alta fluência" ou "baixa variação lexical".
 
-Para criar um classificador fuzzy, definimos funções de pertinência triangulares e trapezoidais sobre as mesmas métricas estilométricas utilizadas no primeiro artigo. Estas funções são determinadas por três ou quatro parâmetros (a, b, c, d) e são amplamente usadas em sistemas fuzzy pela simplicidade algorítmica e eficiência computacional
-researchhubs.com
-. Embora as funções triangulares não sejam suaves nos vértices, elas oferecem boa aproximação em muitos problemas práticos. Funções mais suaves, como Gaussianas e sinoidais, também podem ser consideradas; estas são parametrizadas por centro e largura e têm propriedades úteis como invariância sob multiplicação e transformada de Fourier
-researchhubs.com
-.
+As funções de pertinência adotadas são triangulares, determinadas por três parâmetros $(a,b,c)$, amplamente utilizadas em sistemas fuzzy por sua simplicidade algorítmica e eficiência computacional~\cite{pedrycz1994}.
 
-O interesse em utilizar lógica fuzzy em estilometria nasce da observação de que categorias linguísticas raramente são discretas: definições como “texto bem estruturado” ou “fluência alta” são graduais e dependem de critérios vagos. Um artigo recente defende que a lógica fuzzy ocupa um espaço intermediário entre ciência empírica e lógica formal e que se aproxima do modo como usamos a linguagem natural para expressar imprecisão
-researchpod.org
-. Essa característica a torna adequada para modelar a “gradualidade” no pertencimento de um texto a uma classe (humano ou LLM) e para incorporar regras linguísticas flexíveis. Assim, ao construir funções de pertinência com base em distribuições de métricas estilométricas, podemos transformar o problema de classificação em um sistema de inferência fuzzy, combinando graus de pertinência para obter uma probabilidade final de pertencimento. A proposta aproveita a mesma base de dados e características do artigo estatístico, unificando esforços e maximizando resultados.
+O interesse em utilizar lógica fuzzy na estilometria decorre da natureza intrinsecamente gradual da linguagem. Categorias como "texto bem estruturado" ou "escrita natural" dependem de critérios de pertinência. A lógica fuzzy ocupa um espaço entre empirismo e formalidade, aproximando-se da forma como utilizamos a linguagem natural para expressar incerteza e imprecisão~\cite{klir1995}. Essa característica a torna adequada para modelar a "gradualidade" no pertencimento de um texto a uma classe (autoral ou LLM).
 
+Ao fuzificar métricas estilométricas e combiná-las no sistema de inferência fuzzy de regras "Se ... então", é possível estimar o grau de pertencimento de um texto a cada classe.
 
-Além da abordagem estatística, exploramos a aplicação de conjuntos fuzzy para distinguir textos humanos de textos de LLM. A teoria de conjuntos fuzzy foi proposta por Lotfi Zadeh em 1965 e introduziu a noção de pertencimento gradual: elementos podem pertencer a um conjunto com graus entre 0 e 1, representados por uma função de pertinência
-tutorialspoint.com
-. Essa função mapeia cada elemento do universo para um valor no intervalo [0, 1], caracterizando a “fuzziness” – toda a informação sobre o conjunto
-tutorialspoint.com
-. Conceitos como núcleo (região com pertencimento total), suporte (região com pertencimento não‑nulo) e fronteira (região de pertencimento parcial) auxiliam a descrever a topologia de uma função de pertinência
-tutorialspoint.com
-. As funções de pertinência foram introduzidas por Zadeh em sua pesquisa seminal
-tutorialspoint.com
- e podem ser representadas graficamente, sendo construídas de acordo com a experiência ou com o conhecimento acumulado sobre o fenômeno analisado
-tutorialspoint.com
-.
+A principal vantagem da abordagem fuzzy é a \textbf{interpretabilidade}: ao contrário de modelos de caixa-preta, os graus de pertinência podem ser inspecionados e compreendidos por humanos, revelando em que medida cada dimensão estilométrica contribui para a decisão. Além disso, o sistema fuzzy permite incorporar conhecimento linguístico especializado na definição das funções de pertinência, embora aqui seja adotada uma abordagem orientada a dados (\textit{data-driven}), determinando os parâmetros a partir de quantis das distribuições observadas.
 
-Para criar um classificador fuzzy, definimos funções de pertinência triangulares e trapezoidais sobre as mesmas métricas estilométricas utilizadas no primeiro artigo. Estas funções são determinadas por três ou quatro parâmetros (a, b, c, d) e são amplamente usadas em sistemas fuzzy pela simplicidade algorítmica e eficiência computacional
-researchhubs.com
-. Embora as funções triangulares não sejam suaves nos vértices, elas oferecem boa aproximação em muitos problemas práticos. Funções mais suaves, como Gaussianas e sinoidais, também podem ser consideradas; estas são parametrizadas por centro e largura e têm propriedades úteis como invariância sob multiplicação e transformada de Fourier
-researchhubs.com
-.
+A lógica fuzzy tem sido amplamente aplicada em processamento de linguagem natural, especialmente em análise de sentimentos~\cite{vashishtha2023} e classificação de texto~\cite{liu2024}. Trabalhos recentes também exploram sistemas fuzzy interpretativos baseados em fundamentos axiomáticos~\cite{wang2024fuzzy}, demonstrando a viabilidade de sistemas transparentes e auditáveis. Contudo, até onde sabemos, nenhum estudo anterior aplicou lógica fuzzy especificamente à detecção de textos gerados por inteligência artificial. Enquanto LLMs têm sido analisados predominantemente por métodos estatísticos ou de aprendizado profundo, este trabalho propõe a utilização de sistemas de inferência fuzzy como alternativa explicável, eficiente e de fácil interpretação.
 
-O interesse em utilizar lógica fuzzy em estilometria nasce da observação de que categorias linguísticas raramente são discretas: definições como “texto bem estruturado” ou “fluência alta” são graduais e dependem de critérios vagos. Um artigo recente defende que a lógica fuzzy ocupa um espaço intermediário entre ciência empírica e lógica formal e que se aproxima do modo como usamos a linguagem natural para expressar imprecisão
-researchpod.org
-. Essa característica a torna adequada para modelar a “gradualidade” no pertencimento de um texto a uma classe (humano ou LLM) e para incorporar regras linguísticas flexíveis. Assim, ao construir funções de pertinência com base em distribuições de métricas estilométricas, podemos transformar o problema de classificação em um sistema de inferência fuzzy, combinando graus de pertinência para obter uma probabilidade final de pertencimento. A proposta aproveita a mesma base de dados e características do artigo estatístico, unificando esforços e maximizando resultados.
+Os resultados apresentados demonstram que classificadores fuzzy simples podem alcançar desempenho competitivo (AUC de 89\%) em comparação com abordagens estatísticas e neurais mais complexas, preservando ao mesmo tempo transparência e interpretabilidade: características essenciais para aplicações em educação, moderação de conteúdo e integridade científica.

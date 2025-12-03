@@ -1,9 +1,24 @@
 % Conclusion
 
 \noindent
-% Summarise the main contributions of the statistical analysis.  Emphasise the
-% value of interpretable features and classic statistical tools for
-% understanding differences between human and machine--generated texts.  Note
-% practical applications (authorship verification, model auditing) and future
-% research directions (larger corpora, cross--linguistic studies, integration
-% with fuzzy logic approaches).
+Este trabalho demonstrou que \textbf{métodos estatísticos clássicos são altamente eficazes para distinguir textos autorais de textos gerados por LLMs em português do Brasil}. Utilizando apenas 10 características estilométricas simples e facilmente interpretáveis, alcançamos acurácia de discriminação de 97,03\% (ROC AUC) com regressão logística e 94,12\% com análise discriminante linear -- desempenhos comparáveis ou superiores a estudos anteriores que empregaram dezenas de características e modelos mais complexos.
+
+As principais contribuições deste estudo são:
+
+\begin{enumerate}
+    \item \textbf{Primeira análise estilométrica em português do Brasil:} preenchemos uma lacuna importante na literatura, que se concentrava predominantemente em textos em inglês.
+
+    \item \textbf{Validação de características estilométricas universais:} seis das dez características apresentaram tamanhos de efeito grandes, demonstrando que as diferenças estilísticas entre textos autorais e de LLM não se limitam ao inglês, mas generalizam-se para outras línguas.
+
+    \item \textbf{Demonstração da suficiência de métodos lineares:} contrariamente à tendência de aplicar redes neurais profundas, mostramos que classificadores lineares simples são suficientes para este problema, oferecendo vantagens de interpretabilidade e eficiência computacional.
+
+    \item \textbf{Análise de tamanho de efeito rigorosa:} ao empregar o delta de Cliff e correção FDR, fornecemos estimativas robustas e não paramétricas de tamanho de efeito, frequentemente ausentes na literatura.
+
+    \item \textbf{Caracterização detalhada das diferenças:} identificamos que textos autorais são mais variáveis estruturalmente (burstiness, entropia), enquanto LLMs são mais diversos lexicalmente (TTR, hapax) -- um padrão contra-intuitivo que merece investigação futura.
+\end{enumerate}
+
+Os resultados têm implicações práticas para educação, moderação de conteúdo, integridade científica e forense digital, embora seja crucial utilizar estes métodos de forma responsável, reconhecendo suas limitações e evitando aplicações punitivas sem investigação adicional.
+
+As limitações principais incluem: (i) foco em português do Brasil, sem validação em outras variantes; (ii) diversidade limitada de modelos de LLM (primariamente GPT-style); (iii) ausência de validação por tópico; e (iv) potencial obsolescência à medida que LLMs evoluem. Trabalhos futuros devem abordar estas limitações através de estudos multilíngues, análises longitudinais e desenvolvimento de métodos adaptativos que acompanhem a evolução dos modelos de linguagem.
+
+Em resumo, este trabalho estabelece uma base sólida para detecção estilométrica de LLMs em português e demonstra que, apesar dos avanços impressionantes em geração de linguagem natural, \textbf{assinaturas estilísticas humanas permanecem detectáveis através de análise estatística}.

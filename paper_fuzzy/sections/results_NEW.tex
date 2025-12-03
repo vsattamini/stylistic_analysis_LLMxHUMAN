@@ -1,0 +1,65 @@
+% Results - Rewritten based on actual findings and Regina's feedback style
+
+\subsection{Desempenho do Classificador Fuzzy}
+
+A Tabela~\ref{tab:fuzzy_performance} apresenta o desempenho do classificador fuzzy em validação cruzada estratificada (5 folds), comparado aos métodos estatísticos apresentados no artigo complementar.
+
+\begin{table}[htbp]
+\centering
+\caption{Desempenho dos classificadores em validação cruzada (5 folds). Média ± desvio padrão.}
+\label{tab:fuzzy_performance}
+\begin{tabular}{lcc}
+\toprule
+Modelo & ROC AUC & Average Precision \\
+\midrule
+Classificador Fuzzy & $0.8934 \pm 0.0004$ & $0.8695 \pm 0.0015$ \\
+LDA & $0.9412 \pm 0.0017$ & $0.9457 \pm 0.0015$ \\
+Regressão Logística & $0.9703 \pm 0.0014$ & $0.9717 \pm 0.0012$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+O classificador fuzzy alcançou ROC AUC de 89,34\% (±0,04\%), demonstrando capacidade substancial de discriminação entre textos autorais e gerados por LLM. O desempenho situa-se 5 pontos percentuais abaixo da LDA e 8 pontos abaixo da regressão logística, representando o custo da interpretabilidade: métodos transparentes tendem a sacrificar poder discriminatório em favor de explicabilidade.
+
+Um aspecto notável é a robustez excepcional do classificador fuzzy: o desvio padrão de AUC (±0,04\%) é aproximadamente 4× menor que LDA (±0,17\%) e 3,5× menor que regressão logística (±0,14\%). Esta estabilidade superior sugere menor sensibilidade a variações nos dados de treinamento, possivelmente devido à determinação de parâmetros por quantis -- estatísticas de ordem resistentes a valores extremos.
+
+As Figuras~\ref{fig:fuzzy_roc_comparison} e~\ref{fig:fuzzy_pr_comparison} apresentam as curvas ROC e Precision--Recall dos três classificadores. Embora a curva fuzzy esteja consistentemente abaixo das outras, permanece substancialmente acima do classificador aleatório (AUC = 0,50), confirmando capacidade discriminatória efetiva.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{../figure_roc_curves.png}
+\caption{Curvas ROC comparando classificador fuzzy, LDA e regressão logística. Áreas sombreadas representam ±1 desvio padrão.}
+\label{fig:fuzzy_roc_comparison}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{../figure_pr_curves.png}
+\caption{Curvas Precision--Recall. O classificador fuzzy mantém precisão razoável mesmo em níveis altos de revocação.}
+\label{fig:fuzzy_pr_comparison}
+\end{figure}
+
+\subsection{Funções de Pertinência e Interpretabilidade}
+
+A Figura~\ref{fig:fuzzy_membership} ilustra as funções de pertinência triangulares para quatro características discriminantes: \texttt{char\_entropy}, \texttt{ttr}, \texttt{sent\_std} e \texttt{hapax\_prop}. Para cada característica, três conjuntos fuzzy (baixo, médio, alto) foram determinados por quantis (0\%, 33\%, 66\%, 100\%) das distribuições observadas no conjunto de treino.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{../figure_fuzzy_membership_functions.png}
+\caption{Funções de pertinência triangulares sobrepostas às distribuições empíricas de textos autorais (azul) e de LLM (laranja). Linhas vermelha, verde e azul representam os conjuntos fuzzy "alto", "médio" e "baixo", respectivamente.}
+\label{fig:fuzzy_membership}
+\end{figure}
+
+A visualização revela como o sistema interpreta cada dimensão estilométrica:
+
+\begin{itemize}
+    \item \textbf{char\_entropy:} textos autorais concentram-se na região "alta" (valores $> 4,5$), enquanto textos de LLM na região "baixa" (valores $< 4,3$). Esta é a característica mais discriminante, consistente com o delta de Cliff ($\delta = -0,881$) da análise estatística.
+
+    \item \textbf{ttr:} textos de LLM apresentam maior diversidade lexical, concentrando-se na região "alta" ($> 0,65$). Textos autorais tendem a valores médios-baixos ($< 0,60$).
+
+    \item \textbf{sent\_std:} textos autorais exibem maior variabilidade estrutural (região "alta"), enquanto LLMs produzem textos mais uniformes (região "baixa").
+
+    \item \textbf{hapax\_prop:} similar ao TTR, LLMs produzem maior proporção de hapax legomena, indicando vocabulário menos repetitivo.
+\end{itemize}
+
+A principal vantagem do classificador fuzzy é a transparência: cada decisão pode ser decomposta em graus de pertinência por variável linguística. Por exemplo, um texto classificado como "humano" com probabilidade 0,80 permite inspeção característica por característica para identificar quais métricas contribuíram para a decisão e em que grau. Esta explicabilidade contrasta com modelos de caixa-preta e é particularmente valiosa em contextos onde decisões algorítmicas precisam ser justificadas (educação, moderação de conteúdo, integridade científica).

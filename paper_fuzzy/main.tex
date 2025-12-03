@@ -1,43 +1,72 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
+\usepackage[brazilian]{babel}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{natbib}
-\usepackage{hyperref}
+\usepackage[alf,abnt-emphasize=bf,abnt-repeated-title-ignore=yes,abnt-thesis-year=final]{abntex2cite}
+\makeatletter
+\@ifpackageloaded{hyperref}{%
+  \usepackage[hyperfootnotes=false]{hyperref}%
+}{%
+  \usepackage[hyperfootnotes=false]{hyperref}%
+}
+\makeatother
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 
-\title{Stylometric Classification with Fuzzy Set Theory and Approximate Reasoning}
-\author{Your Name\\Department\\Institution}
-\date{\today}
+% Redefinir nome da seção de referências
+\renewcommand{\refname}{Referências}
+
+\title{Classificação Estilométrica com Teoria de Conjuntos Fuzzy e Raciocínio Aproximado}
+\author{Victor Löfgren Sattamini\\Programa de Pós-Graduação em Ciências Computacionais e Modelagem Matemática (PPG-CompMat)\\IME UERJ}
+\date{10 de Novembro de 2025}
 
 \begin{document}
+
+% Redefinir maketitle para garantir centralização
+\makeatletter
+\renewcommand{\@maketitle}{%
+  \newpage
+  \null
+  \vskip 2em%
+  \begin{center}%
+  \let \footnote \thanks
+    {\LARGE \@title \par}%
+    \vskip 1.5em%
+    {\large
+      \lineskip .5em%
+      \begin{center}%
+        \@author
+      \end{center}\par}%
+    \vskip 1em%
+    {\large \@date}%
+  \end{center}%
+  \par
+  \vskip 1.5em}
+\makeatother
 
 \maketitle
 
 \begin{abstract}
-% Summarise the goals and findings of the fuzzy logic analysis: applying fuzzy
-% set theory to stylometric features, constructing membership functions and
-% inference rules to classify texts as human or LLM, and comparing
-% performance to statistical methods.
+\noindent
+Este trabalho apresenta um classificador baseado em lógica fuzzy para detecção de textos gerados por LLM - Large Language Models em português do Brasil. A abordagem utiliza propriedades quantitativas da escrita associadas a funções de pertinência triangulares que expressam o grau de pertencimento de um texto a categorias linguísticas interpretáveis. Os parâmetros das funções são determinados de forma orientada a dados, usando quantis (33\%, 50\%, 66\%) das distribuições observadas no conjunto de treino, eliminando a necessidade de conhecimento especialista. O sistema de inferência fuzzy estima os graus de pertinência através de média aritmética para estimar a probabilidade de um texto ser autoral ou gerado por LLM. Avaliamos o classificador em um corpus balanceado de 100.000 amostras usando validação cruzada estratificada de 5 folds. O classificador fuzzy alcançou ROC AUC de 89,34\% ($\pm 0,04\%$), demonstrando desempenho competitivo comparado a métodos estatísticos (regressão logística: 97,03\%, LDA: 94,12\%) e neurais mais complexos. Além disso, o classificador apresentou variância 3--4× menor que métodos comparativos, indicando maior robustez. O custo de oportunidade entre interpretabilidade e desempenho é modesto (cerca de 8\% de perda em AUC), tornando o modelo adequado para cenários onde transparência e auditabilidade são prioritárias, como educação, moderação de conteúdo e integridade científica. Este trabalho mostra que sistemas fuzzy podem competir com abordagens mais complexas, preservando vantagens cruciais de explicabilidade.
 \end{abstract}
 
-\section{Introduction}
+\section{Introdução}
 \input{sections/intro.tex}
 
-\section{Fuzzy Set Theory Background}
+\section{Fundamentos de Teoria de Conjuntos Fuzzy}
 \input{sections/methods.tex}
 
-\section{Results}
+\section{Resultados}
 \input{sections/results.tex}
 
-\section{Discussion}
+\section{Discussão}
 \input{sections/discussion.tex}
 
-\section{Conclusion}
+\section{Conclusão}
 \input{sections/conclusion.tex}
 
-\bibliographystyle{plainnat}
 \bibliography{refs}
 
 \end{document}

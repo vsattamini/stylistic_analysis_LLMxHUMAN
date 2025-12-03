@@ -23,19 +23,19 @@ O classificador fuzzy alcança \textbf{ROC AUC de 89,34\%}, demonstrando capacid
 
 Um aspecto notável é a \textbf{estabilidade excepcional} do classificador fuzzy: o desvio padrão de AUC é de apenas $\pm 0.04\%$, inferior ao de ambos os métodos estatísticos (LDA: $\pm 0.17\%$; Logística: $\pm 0.14\%$). Isto sugere que o sistema fuzzy é altamente robusto a variações nos dados de treinamento, possivelmente devido à determinação de parâmetros por quantis, que são estatísticas de ordem resistentes a outliers.
 
-A Figura~\ref{fig:fuzzy_roc_comparison} apresenta a curva ROC do classificador fuzzy proposto. Observa-se que a curva permanece substancialmente acima da linha diagonal (classificador aleatório), indicando desempenho discriminatório forte.
+A Figura~\ref{fig:fuzzy_roc_comparison} apresenta as curvas ROC dos três classificadores lado a lado, permitindo comparação visual direta. Observa-se que, embora a curva fuzzy esteja consistentemente abaixo das outras duas, ela permanece substancialmente acima da linha diagonal (classificador aleatório), indicando desempenho discriminatório forte.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85\textwidth]{figure_roc_fuzzy.png}
-\caption{Curva ROC do classificador fuzzy proposto. A área sombreada representa $\pm 1$ desvio padrão através dos 5 folds de validação cruzada. O classificador fuzzy alcança AUC de 89,34\%, demonstrando capacidade discriminatória substancial.}
+\includegraphics[width=0.85\textwidth]{../figure_roc_curves.png}
+\caption{Curvas ROC comparando classificador fuzzy (vermelho tracejado), LDA (verde sólido) e regressão logística (azul tracejado). Áreas sombreadas representam $\pm 1$ desvio padrão. O classificador fuzzy mantém desempenho sólido apesar de sua simplicidade.}
 \label{fig:fuzzy_roc_comparison}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85\textwidth]{figure_pr_fuzzy.png}
-\caption{Curva Precision--Recall do classificador fuzzy proposto. O classificador mantém precisão elevada em níveis moderados de recall, com AP de 86,95\%.}
+\includegraphics[width=0.85\textwidth]{../figure_pr_curves.png}
+\caption{Curvas Precision--Recall comparando os três classificadores. O classificador fuzzy mantém precision razoável mesmo em níveis altos de recall, embora com alguma degradação comparado aos métodos estatísticos.}
 \label{fig:fuzzy_pr_comparison}
 \end{figure}
 

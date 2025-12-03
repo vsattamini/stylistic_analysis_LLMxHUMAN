@@ -1,11 +1,81 @@
 % Discussion
 
-\noindent
-% Interpret the results in light of the hypotheses.  Discuss which features
-% showed the strongest differences between human and LLM texts and how these
-% findings relate to previous work on generated text detection.  Reflect on
-% the usefulness of non--parametric tests and multivariate models for
-% stylometric analysis.  Address potential confounding factors (e.g.
-% topic variation, length differences) and limitations of the study.
-% Suggest how these methods could be applied to other domains or adapted to
-% new types of generative models.
+\subsection{Interpretação dos Resultados}
+
+Os resultados demonstram de forma conclusiva que \textbf{textos autorais e textos gerados por LLMs apresentam diferenças estilométricas substanciais em português do Brasil}. Das 10 características analisadas, 9 mostraram diferenças estatisticamente significativas com tamanhos de efeito que variam de pequeno a grande, sendo que 6 apresentaram efeitos grandes ($|\delta| \geq 0.474$). Este padrão é ainda mais robusto do que muitos estudos anteriores em língua inglesa, sugerindo que as diferenças estilísticas entre textos autorais e de LLM podem ser universais ou até mais pronunciadas em português.
+
+A característica mais discriminante, \textbf{entropia de caracteres} ($\delta = -0.881$), revela que textos autorais apresentam distribuições de caracteres significativamente mais heterogêneas. Esta diferença pode estar relacionada a vários fatores: (i) maior diversidade de pontuação e formatação em textos autênticos (web, fóruns, redes sociais); (ii) maior variabilidade ortográfica, incluindo erros de digitação e variações dialetais; e (iii) uso mais variado de caracteres especiais, emoticons e símbolos. LLMs, treinados para gerar texto ``correto'' e bem formatado, tendem a produzir distribuições de caracteres mais uniformes e previsíveis.
+
+A \textbf{variabilidade estrutural}, medida por \texttt{sent\_std} ($\delta = -0.790$) e \texttt{sent\_burst} ($\delta = -0.663$), também favorece fortemente textos autorais. Este resultado é consistente com a observação de que escritores exibem maior irregularidade sintática, alternando entre frases curtas e longas de forma mais natural e menos previsível. LLMs, por outro lado, tendem a gerar textos com estrutura mais regular, possivelmente devido aos mecanismos de atenção e às probabilidades de transição aprendidas durante o treinamento, que favorecem padrões consistentes.
+
+Surpreendentemente, a \textbf{diversidade lexical} (TTR, hapax, Herdan's C) é \textit{maior} em textos de LLM. Este resultado aparentemente contra-intuitivo pode ser explicado por: (i) o treinamento em corpora extremamente vastos e diversos, expondo o modelo a vocabulário amplo; (ii) a menor tendência a repetir palavras, característica de modelos de linguagem modernos que penalizam repetição excessiva; e (iii) o fato de que textos autorais no corpus BrWaC podem incluir gêneros específicos (e.g., notícias, blogs) que naturalmente apresentam menor diversidade lexical por tratarem de tópicos especializados.
+
+\subsection{Desempenho dos Classificadores}
+
+O excelente desempenho dos classificadores lineares (LDA: 94,12\%, Logística: 97,03\% AUC) indica que a \textbf{separação entre as classes é aproximadamente linear} no espaço de características. Este resultado tem implicações práticas importantes: sistemas de detecção de LLMs não necessitam de arquiteturas complexas (redes neurais profundas, transformers) para alcançar alta acurácia. Métodos estatísticos clássicos, computacionalmente eficientes e facilmente interpretáveis, são suficientes.
+
+A superioridade da regressão logística sobre LDA (~3 pontos percentuais) sugere que, embora a separação seja aproximadamente linear, as distribuições das características não são perfeitamente Gaussianas -- uma suposição central da LDA. A regressão logística, sendo um modelo discriminativo que não assume forma distribucional específica, é mais robusta a violações de normalidade, justificando sua performance superior.
+
+A análise de componentes principais revela que PC1 (38\% de variância) representa essencialmente um eixo de ``LLM-ness'', com características de diversidade lexical (TTR, hapax) em um extremo e características de variabilidade estrutural (burstiness, entropia) no outro. Este resultado sugere que existe uma \textbf{dimensão latente fundamental} que captura a diferença entre textos autorais e de LLM, e que esta dimensão pode ser interpretada como um custo de oportunidade entre ``diversidade lexical vs variabilidade estrutural''.
+
+\subsection{Comparação com Estudos Anteriores}
+
+Comparando com a literatura em língua inglesa, nossos resultados são notavelmente fortes. Um estudo recente reportou acurácias de 81--98\% usando Random Forest com 31 características~\cite{stylometric_llm_detection}. Nosso trabalho alcança 97\% AUC com apenas 10 características e um modelo linear simples, sugerindo que: (i) as características estilométricas escolhidas são altamente informativas; (ii) métodos lineares podem ser tão eficazes quanto métodos ensemble para este problema; e (iii) as diferenças estilométricas em português podem ser ainda mais pronunciadas que em inglês, embora esta hipótese requeira validação com datasets paralelos.
+
+É importante notar que a maioria dos estudos anteriores focou em inglês, deixando uma lacuna na literatura para outras línguas. Este trabalho contribui ao demonstrar que as diferenças estilométricas se generalizam para o português brasileiro, validando a universalidade (ao menos parcial) dos padrões observados e abrindo caminho para estudos multilíngues.
+
+\subsection{Limitações}
+
+Várias limitações devem ser reconhecidas:
+
+\begin{enumerate}
+    \item \textbf{Desbalanceamento das fontes de dados:} o corpus original era altamente desbalanceado (98\% humano, 2\% LLM), exigindo técnicas de balanceamento que podem introduzir viés. Idealmente, datasets futuros deveriam coletar amostras naturalmente balanceadas.
+
+    \item \textbf{Diversidade de LLMs:} os textos de LLM provêm primariamente de modelos estilo ChatGPT (GPT-3.5/4). Modelos futuros ou arquiteturas distintas (e.g., Claude, Gemini, modelos especializados em português) podem apresentar padrões estilométricos diferentes, potencialmente reduzindo a acurácia dos classificadores.
+
+    \item \textbf{Ausência de validação por tópico:} não foi possível implementar validação cruzada por tópico devido à ausência de anotações temáticas. Isto pode levar a superestimação do desempenho se tópicos específicos estiverem correlacionados com a origem do texto (humano vs LLM).
+
+    \item \textbf{Variedade linguística limitada:} o estudo focou em português brasileiro. Português europeu e outras variantes podem apresentar padrões diferentes, limitando a generalização dos resultados.
+
+    \item \textbf{Evolução temporal:} LLMs evoluem rapidamente. Os modelos de 2023--2024 podem gerar texto estilísticamente distinto dos modelos de 2025 em diante, potencialmente tornando os classificadores obsoletos. Estudos longitudinais são necessários para avaliar a durabilidade das características estilométricas.
+
+    \item \textbf{Características manuais:} as 10 características foram selecionadas manualmente com base na literatura. Técnicas de seleção automática de características (e.g., LASSO, Random Forest feature importance) poderiam identificar combinações mais informativas.
+
+    \item \textbf{Generalização entre domínios:} o estudo avalia performance em textos genéricos de múltiplas fontes, mas não testa explicitamente generalização cross-domain. Evidências da literatura~\cite{brennan2016} demonstram que características estilométricas podem degradar significativamente quando treinadas em um domínio (e.g., acadêmico) e testadas em outro (e.g., redes sociais). Avaliação futura deveria incluir testes em domínios específicos (notícias, literatura, código, conversas) para validar robustez.
+
+    \item \textbf{Limitações do Type-Token Ratio:} a métrica TTR tem sido criticada desde 1987~\cite{richards1987} por dependência do comprimento do texto. Alternativas como MTLD (Measure of Textual Lexical Diversity)~\cite{mccarthy2010} oferecem medidas invariantes ao tamanho e poderiam fortalecer a análise.
+\end{enumerate}
+
+\subsection{Implicações Práticas}
+
+Os resultados têm implicações diretas para várias aplicações:
+
+\begin{itemize}
+    \item \textbf{Educação:} sistemas de detecção de plágio podem incorporar características estilométricas para identificar trabalhos gerados por IA, auxiliando educadores a manter a integridade acadêmica.
+
+    \item \textbf{Moderação de conteúdo:} plataformas online podem usar classificadores estilométricos para detectar spam, desinformação ou conteúdo gerado automaticamente em massa.
+
+    \item \textbf{Integridade científica:} editores e revisores podem aplicar análise estilométrica para identificar manuscritos suspeitos gerados (total ou parcialmente) por LLMs, especialmente em áreas onde a originalidade é crítica.
+
+    \item \textbf{Forense digital:} análise forense de textos pode beneficiar-se de métodos estilométricos para atribuição de autoria ou detecção de manipulação.
+\end{itemize}
+
+Entretanto, é importante ressaltar que \textbf{classificadores estilométricos não devem ser usados de forma punitiva sem investigação adicional}. Falsos positivos podem prejudicar indivíduos inocentes, e a detecção automática deve ser vista como uma ferramenta de triagem, não como veredicto final.
+
+\subsection{Direções Futuras}
+
+Trabalhos futuros podem explorar:
+
+\begin{enumerate}
+    \item \textbf{Estudos multilíngues:} aplicar a mesma metodologia a outras línguas (espanhol, francês, alemão, etc.) para avaliar a universalidade dos padrões estilométricos.
+
+    \item \textbf{Análise longitudinal:} coletar dados de múltiplas gerações de LLMs e avaliar como as características estilométricas evoluem ao longo do tempo.
+
+    \item \textbf{Detecção em domínios específicos:} avaliar desempenho em gêneros textuais específicos (acadêmico, jornalístico, literário, código) onde LLMs podem comportar-se diferentemente.
+
+    \item \textbf{Textos híbridos:} desenvolver métodos para detectar textos parcialmente editados por humanos após geração por LLM (cenário comum em uso real).
+
+    \item \textbf{Características neurais:} combinar características estilométricas clássicas com embeddings contextuais (BERT, GPT) para classificação híbrida.
+
+    \item \textbf{Explicabilidade:} desenvolver visualizações interativas que permitam usuários finais compreender \textit{por que} um texto foi classificado como humano ou LLM.
+\end{enumerate}
