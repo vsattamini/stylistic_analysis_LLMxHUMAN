@@ -10,37 +10,37 @@ Para prevenir vazamento de dados (data leakage), verificamos que os textos não 
 
 \subsection{Extração de Características Estilométricas}
 
-Cada amostra de texto foi processada pelo módulo \texttt{src/features.py}, que calcula 10 métricas estilométricas contínuas em português:
+Cada amostra de texto foi processada pelo módulo \texttt{src/features.py}, que calcula 10 métricas estilométricas contínuas em português. As características foram selecionadas por capturarem aspectos complementares da estrutura estatística e lexical dos textos:
 
 \begin{enumerate}
-    \item \textbf{Comprimento médio de frase} (\texttt{sent\_mean}): média do número de palavras por frase, calculada após segmentação em pontos finais, exclamações e interrogações.
+    \item \textbf{Comprimento médio de frase} (\texttt{sent\_mean}): medida de tendência central do número de palavras por frase, calculada após segmentação em pontos finais, exclamações e interrogações. Representa o padrão sintático dominante no texto.
 
-    \item \textbf{Desvio padrão do comprimento de frase} (\texttt{sent\_std}): desvio padrão populacional (ddof=0) do número de palavras por frase.
+    \item \textbf{Desvio padrão do comprimento de frase} (\texttt{sent\_std}): medida de dispersão que quantifica a variabilidade na estrutura sintática. Desvio padrão populacional (ddof=0) do número de palavras por frase. Textos com alta variabilidade sintática apresentam maior desvio padrão.
 
-    \item \textbf{Burstiness} (\texttt{sent\_burst}): coeficiente de variação do comprimento de frase, calculado como $\text{burstiness} = \sigma / \mu$, onde $\sigma$ é o desvio padrão e $\mu$ a média do comprimento de frases.
+    \item \textbf{Burstiness} (\texttt{sent\_burst}): coeficiente de variação do comprimento de frase, calculado como $\text{burstiness} = \sigma / \mu$, onde $\sigma$ é o desvio padrão e $\mu$ a média do comprimento de frases. Esta medida de variabilidade relativa é útil para discriminação pois normaliza a dispersão pela tendência central, permitindo comparações entre textos com diferentes médias de comprimento.
 
-    \item \textbf{Relação tipo-token} (\texttt{ttr}): razão entre palavras únicas (tipos) e total de palavras (tokens), calculada como $\text{TTR} = V/N$, onde $V$ é o número de tipos e $N$ o número de tokens.
+    \item \textbf{Relação tipo-token} (\texttt{ttr}): medida de diversidade lexical calculada como $\text{TTR} = V/N$, onde $V$ é o número de tipos (palavras únicas) e $N$ o número de tokens (total de palavras). Quantifica a dispersão do vocabulário: valores altos indicam maior variedade lexical.
 
-    \item \textbf{C de Herdan} (\texttt{herdan\_c}): medida de diversidade lexical normalizada para o comprimento do texto, calculada como $C = \log(V) / \log(N)$~\cite{herdan1960}.
+    \item \textbf{C de Herdan} (\texttt{herdan\_c}): medida de diversidade lexical normalizada para o comprimento do texto, calculada como $C = \log(V) / \log(N)$~\cite{herdan1960}. Corrige o viés de comprimento presente no TTR, fornecendo estimativa mais estável da dispersão vocabular.
 
-    \item \textbf{Proporção de hapax legomena} (\texttt{hapax\_prop}): fração de palavras que ocorrem exatamente uma vez no texto, relativa ao total de tokens.
+    \item \textbf{Proporção de hapax legomena} (\texttt{hapax\_prop}): fração de palavras que ocorrem exatamente uma vez no texto, relativa ao total de tokens. Captura a raridade lexical e está relacionada à riqueza vocabular.
 
-    \item \textbf{Entropia de caracteres} (\texttt{char\_entropy}): entropia de Shannon sobre a distribuição de caracteres, calculada como $H = -\sum p(c) \log_2 p(c)$, onde $p(c)$ é a probabilidade de cada caractere.
+    \item \textbf{Entropia de caracteres} (\texttt{char\_entropy}): medida de variabilidade na distribuição de caracteres, calculada como $H = -\sum p(c) \log_2 p(c)$, onde $p(c)$ é a probabilidade de cada caractere. Alta entropia indica distribuição mais uniforme (maior incerteza); baixa entropia indica concentração em poucos caracteres.
 
-    \item \textbf{Proporção de palavras funcionais} (\texttt{func\_word\_ratio}): fração de tokens pertencentes a uma lista curada de 86 palavras funcionais do português (artigos, preposições, conjunções e pronomes).
+    \item \textbf{Proporção de palavras funcionais} (\texttt{func\_word\_ratio}): fração de tokens pertencentes a uma lista curada de 86 palavras funcionais do português (artigos, preposições, conjunções e pronomes). Palavras funcionais são estáveis entre textos e apresentam menor variância que palavras de conteúdo, sendo discriminativas para detecção de autoria.
 
-    \item \textbf{Proporção de pronomes de primeira pessoa} (\texttt{first\_person\_ratio}): fração de tokens que são pronomes de primeira pessoa (eu, me, mim, meu, minha, nós, nos, nosso, nossa).
+    \item \textbf{Proporção de pronomes de primeira pessoa} (\texttt{first\_person\_ratio}): fração de tokens que são pronomes de primeira pessoa (eu, me, mim, meu, minha, nós, nos, nosso, nossa). Captura o grau de subjetividade e perspectiva pessoal no texto.
 
-    \item \textbf{Proporção de bigramas repetidos} (\texttt{bigram\_repeat\_ratio}): fração de bigramas únicos que aparecem mais de uma vez no texto.
+    \item \textbf{Proporção de bigramas repetidos} (\texttt{bigram\_repeat\_ratio}): fração de bigramas únicos que aparecem mais de uma vez no texto. Mede a redundância de estruturas locais de dois tokens.
 \end{enumerate}
 
-Todas as métricas foram calculadas após tokenização baseada em expressões regulares (padrão \texttt{\textbackslash b\textbackslash w+\textbackslash b}). As features são variáveis contínuas em escala de razão, exceto a entropia de caracteres que é em escala de intervalo.
+Todas as métricas foram calculadas após tokenização baseada em expressões regulares (padrão \texttt{\textbackslash b\textbackslash w+\textbackslash b}). Do ponto de vista estatístico, todas as características são \textbf{variáveis contínuas} (admitem valores fracionários e permitem operações aritméticas). Quanto à escala de medida, nove características estão em \textbf{escala de razão} (possuem zero absoluto e razões interpretáveis), enquanto a entropia de caracteres está em \textbf{escala de intervalo} (diferenças são interpretáveis mas razões não têm significado, pois não há zero absoluto natural).
 
 \subsection{Testes Estatísticos Não Paramétricos}
 
-Para cada característica, comparamos as distribuições entre textos autorais e de LLM usando o teste U de Mann--Whitney~\cite{mann1947}, um teste não paramétrico para duas amostras independentes. Este teste foi escolhido por não assumir normalidade das distribuições e por ser robusto a outliers, características frequentes em dados linguísticos. Calculamos valores-$p$ bicaudais para cada teste.
+Para cada característica, comparamos as distribuições entre textos autorais e de LLM usando o teste U de Mann--Whitney~\cite{mann1947}, um teste não paramétrico para duas amostras independentes. Testes não paramétricos foram escolhidos porque as características estilométricas frequentemente violam pressupostos de testes paramétricos: (i) as distribuições não são normais (verificado por inspeção visual e testes de normalidade), (ii) há presença de outliers em dados linguísticos, e (iii) algumas características apresentam assimetria acentuada. O teste de Mann--Whitney compara as medianas das distribuições sem assumir forma distribucional específica. Calculamos valores-$p$ bicaudais para cada teste.
 
-O tamanho de efeito foi quantificado pelo delta de Cliff ($\delta$)~\cite{cliff1993, cliff1996}, calculado como $\delta = (D^+ - D^-) / (n_1 \times n_2)$, onde $D^+$ é o número de pares em que valores do grupo autoral excedem valores do grupo LLM, $D^-$ é o número de pares na relação inversa, e $n_1$, $n_2$ são os tamanhos amostrais. O delta de Cliff varia entre $-1$ e $+1$, onde valores próximos de zero indicam sobreposição completa entre as distribuições. Seguindo Romano et al.~\cite{romano2006}, interpretamos $|\delta| < 0.147$ como efeito negligenciável, $0.147 \leq |\delta| < 0.330$ como pequeno, $0.330 \leq |\delta| < 0.474$ como médio e $|\delta| \geq 0.474$ como grande.
+O tamanho de efeito foi quantificado pelo delta de Cliff ($\delta$)~\cite{cliff1993, cliff1996}, calculado como $\delta = (D^+ - D^-) / (n_1 \times n_2)$, onde $D^+$ é o número de pares em que valores do grupo autoral excedem valores do grupo LLM, $D^-$ é o número de pares na relação inversa, e $n_1$, $n_2$ são os tamanhos amostrais. O delta de Cliff admite interpretação probabilística: representa a diferença entre $P(X_{\text{autoral}} > X_{\text{LLM}})$ e $P(X_{\text{autoral}} < X_{\text{LLM}})$, estimando o grau de dominância estocástica de uma distribuição sobre a outra. O delta varia entre $-1$ e $+1$, onde valores próximos de zero indicam sobreposição completa entre as distribuições. Seguindo Romano et al.~\cite{romano2006}, interpretamos $|\delta| < 0.147$ como efeito negligenciável, $0.147 \leq |\delta| < 0.330$ como pequeno, $0.330 \leq |\delta| < 0.474$ como médio e $|\delta| \geq 0.474$ como grande.
 
 Dado que realizamos testes múltiplos (10 características), aplicamos a correção de Benjamini--Hochberg~\cite{benjamini1995} para controlar a taxa de falsas descobertas (FDR). Esta correção fornece valores-$q$ ajustados, mantendo o controle sobre a proporção esperada de falsas rejeições entre todas as rejeições.
 
