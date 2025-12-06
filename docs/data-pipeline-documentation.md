@@ -136,7 +136,8 @@ The preprocessing pipeline applies two critical transformations to ensure text s
 **Purpose:** Remove texts too short to provide meaningful stylometric features
 
 **Parameters:**
-- `min_length`: 100 characters (updated to 200 in final implementation)
+- `min_length`: 100 characters
+- **Note:** Function default is 200 characters, but executed with min_length=100 (line 21 of cell `a1070493`)
 - Rationale: Stylometric features require sufficient text for reliable measurement
 
 **Implementation:**
@@ -149,7 +150,7 @@ df_filtered = df[df['text'].str.len() >= min_length].copy()
 - Removed short texts: 171,510 entries (7.4%)
 - Remaining after filtering: 2,159,807 rows
 
-**Code Reference:** Function `filter_and_chunk_text_batch()` in cell `156b6a5f`
+**Code Reference:** Function `filter_and_chunk_text_batch()` in cell `156b6a5f`; Execution call in cell `a1070493`
 
 ### 3.2 Text Chunking for Long Documents
 
