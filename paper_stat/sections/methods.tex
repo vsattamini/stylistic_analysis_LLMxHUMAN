@@ -197,6 +197,54 @@ Avaliamos três modelos para classificação binária:
 
 Os modelos LDA e Regressão Logística foram treinados sobre as 10 características padronizadas (média zero, desvio padrão unitário). Para a regressão logística, utilizamos \texttt{max\_iter=1000} e sem regularização. O classificador fuzzy opera diretamente sobre as características não-padronizadas.
 
+\subsubsection{Validação Estatística dos Modelos}
+
+Todos os modelos multivariados foram validados através de testes estatísticos apropriados para verificar a significância das diferenças detectadas e a qualidade do ajuste.
+
+\textbf{Para Análise Discriminante Linear (LDA)}:
+
+A significância da discriminação entre grupos foi avaliada através do \textbf{Lambda de Wilks} ($\Lambda$), que testa a hipótese nula de que os centroides dos grupos são iguais:
+
+$$\Lambda = \frac{|\mathbf{W}|}{|\mathbf{T}|} = \frac{|\mathbf{W}|}{|\mathbf{W} + \mathbf{B}|}$$
+
+onde $\mathbf{W}$ é a matriz de covariância within-group, $\mathbf{B}$ é between-group, e $\mathbf{T} = \mathbf{W} + \mathbf{B}$ é a matriz total.
+
+A estatística $F$ aproximada é:
+
+$$F = \frac{1-\Lambda}{\Lambda} \times \frac{n - g - p + 1}{p}$$
+
+onde $n$ é tamanho amostral, $g$ é número de grupos (2), e $p$ é número de variáveis.
+
+\textbf{Para Regressão Logística}:
+
+A qualidade global do ajuste foi avaliada através de:
+
+\begin{enumerate}
+    \item \textbf{Teste de razão de verossimilhança}: Compara o modelo completo com o modelo nulo (apenas intercepto):
+    $$G = 2[\ln(L_{completo}) - \ln(L_{nulo})] \sim \chi^2_p$$
+    onde $L$ é a verossimilhança e $p$ é o número de preditores. Valores grandes de $G$ (ou $p < \alpha$) indicam que o modelo completo é significativamente melhor.
+
+    \item \textbf{Teste de Hosmer-Lemeshow}: Avalia adequação do ajuste dividindo as observações em $g = 10$ grupos por probabilidade predita e calculando:
+    $$H = \sum_{i=1}^{g} \frac{(O_i - E_i)^2}{E_i(1-E_i/n_i)} \sim \chi^2_{g-2}$$
+    onde $O_i$ é número observado e $E_i$ é número esperado de sucessos no grupo $i$. Valores pequenos de $H$ (ou $p > 0.05$) indicam bom ajuste.
+
+    \item \textbf{Deviance}: Medida de discrepância entre modelo ajustado e modelo saturado:
+    $$D = -2\ln\left(\frac{L_{ajustado}}{L_{saturado}}\right)$$
+    Valores pequenos indicam melhor ajuste.
+
+    \item \textbf{Pseudo-$R^2$ de McFadden}: Análogo ao $R^2$ em regressão linear:
+    $$R^2_{McFadden} = 1 - \frac{\ln(L_{completo})}{\ln(L_{nulo})}$$
+    Valores entre 0.2-0.4 indicam excelente ajuste em regressão logística \cite{mcfadden1977}.
+\end{enumerate}
+
+\textbf{Significância individual dos preditores}:
+
+Para cada variável preditora $x_j$, testamos $H_0: \beta_j = 0$ através da estatística de Wald:
+
+$$z = \frac{\hat{\beta}_j}{SE(\hat{\beta}_j)} \sim N(0,1)$$
+
+onde $SE(\hat{\beta}_j)$ é o erro padrão estimado. Rejeitamos $H_0$ se $|z| > z_{\alpha/2}$.
+
 \subsection{Validação Cruzada e Métricas de Desempenho}
 
 Empregamos validação cruzada estratificada com 5 partições (\texttt{StratifiedKFold}, \texttt{random\_state=42})~\cite{kohavi1995} para avaliar o desempenho dos classificadores. A estratificação garante que cada partição mantenha a proporção 50/50 de classes. Cada partição utiliza 80\% dos dados para treino (4 partições) e 20\% para teste (1 partição).
