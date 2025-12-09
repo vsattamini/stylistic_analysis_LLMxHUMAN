@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.10.22)  9 DEC 2025 11:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.10.22)  9 DEC 2025 11:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -625,41 +625,43 @@ LaTeX Warning: Citation `scikit-learn' on page 8 undefined on input line 162.
 LaTeX Warning: Citation `wilcox2012' on page 9 undefined on input line 183.
 
 ) (./sections/results.tex [9]
-<figure_roc_fuzzy.png, id=225, 570.933pt x 498.663pt>
+
+LaTeX Warning: Citation `wilcox2012' on page 10 undefined on input line 33.
+
+<figure_roc_fuzzy.png, id=260, 570.933pt x 498.663pt>
 File: figure_roc_fuzzy.png Graphic file (type png)
 <use figure_roc_fuzzy.png>
-Package pdftex.def Info: figure_roc_fuzzy.png  used on input line 30.
+Package pdftex.def Info: figure_roc_fuzzy.png  used on input line 45.
 (pdftex.def)             Requested size: 399.29463pt x 348.76497pt.
-<figure_pr_fuzzy.png, id=227, 570.933pt x 498.663pt>
+<figure_pr_fuzzy.png, id=262, 570.933pt x 498.663pt>
 File: figure_pr_fuzzy.png Graphic file (type png)
 <use figure_pr_fuzzy.png>
-Package pdftex.def Info: figure_pr_fuzzy.png  used on input line 37.
+Package pdftex.def Info: figure_pr_fuzzy.png  used on input line 52.
 (pdftex.def)             Requested size: 399.29463pt x 348.76497pt.
-<../figure_fuzzy_membership_functions.png, id=229, 1004.553pt x 715.473pt>
+<../figure_fuzzy_membership_functions.png, id=264, 1004.553pt x 715.473pt>
 File: ../figure_fuzzy_membership_functions.png Graphic file (type png)
 <use ../figure_fuzzy_membership_functions.png>
 Package pdftex.def Info: ../figure_fuzzy_membership_functions.png  used on inpu
-t line 48.
+t line 63.
 (pdftex.def)             Requested size: 469.75502pt x 334.56927pt.
-
-Overfull \hbox (28.03027pt too wide) in paragraph at lines 62--63
+[10] [11 <./figure_roc_fuzzy.png>] [12 <./figure_pr_fuzzy.png>] [13 <../figure_
+fuzzy_membership_functions.png>]
+Overfull \hbox (28.03027pt too wide) in paragraph at lines 77--78
 []\OT1/cmr/bx/n/10.95 hapax[]prop: \OT1/cmr/m/n/10.95 si-mi-lar ao TTR, LLMs pr
 o-du-zem maior pro-por^^Xc~ao de ha-pax le-go-mena, concentrando-
  []
 
-[10] [11 <./figure_roc_fuzzy.png>] [12 <./figure_pr_fuzzy.png>] [13 <../figure_
-fuzzy_membership_functions.png>]
 
 LaTeX Warning: Citation `stylometric_llm_detection' on page 14 undefined on inp
-ut line 85.
+ut line 100.
 
-) (./sections/discussion.tex [14]
+) [14] (./sections/discussion.tex
 Overfull \hbox (9.74908pt too wide) in paragraph at lines 22--23
 \OT1/cmr/m/n/10.95 Fun^^Xc~oes Gaus-si-a-nas, tra-pe-zoi-dais ou em forma de si
 no, com-bi-na-das com ope-ra-do-res de agrega^^Xc~ao
  []
 
-[15] [16]) (./sections/conclusion.tex) (./main.bbl
+[15] [16]) (./sections/conclusion.tex [17]) (./main.bbl
 ! Undefined control sequence.
 <write> \string \bibcite {\abntnextkey 
                                        ++EXPL}{Herbold et al.}
@@ -704,7 +706,6 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[17]
 ! Undefined control sequence.
 <write> \string \bibcite {\abntnextkey 
                                        ++EXPL}{Klir e Yuan}
@@ -1075,39 +1076,36 @@ Package rerunfilecheck Warning: File `main.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 8ED2136E95544463D60715D870A9B74F;7007
-(rerunfilecheck)             After:  64417523FD4D67652F21E3134A2AA72C;10289.
+(rerunfilecheck)             Before: 64417523FD4D67652F21E3134A2AA72C;10289
+(rerunfilecheck)             After:  BF4E76396621A919A8F4B8682CA48D03;10902.
  ) 
 Here is how much of TeX's memory you used:
- 12143 strings out of 474222
- 188591 string characters out of 5748732
- 1937975 words of memory out of 5000000
- 34085 multiletter control sequences out of 15000+600000
- 567731 words of font info for 73 fonts, out of 8000000 for 9000
+ 12158 strings out of 474222
+ 188896 string characters out of 5748732
+ 1938975 words of memory out of 5000000
+ 34098 multiletter control sequences out of 15000+600000
+ 568076 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,79p,1687b,654s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{subsection.2.10} has been referenced but does not e
-xist, replaced by a fixed one
-
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/
-share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/ty
-pe1/public/cm-super/sfrm1095.pfb>
-Output written on main.pdf (18 pages, 1301878 bytes).
+ 75i,11n,79p,1687b,552s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></us
+r/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/
+type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-supe
+r/sfrm1095.pfb>
+Output written on main.pdf (18 pages, 1306981 bytes).
 PDF statistics:
- 394 PDF objects out of 1000 (max. 8388607)
- 334 compressed objects within 4 object streams
- 123 named destinations out of 1000 (max. 500000)
- 256 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 436 PDF objects out of 1000 (max. 8388607)
+ 374 compressed objects within 4 object streams
+ 124 named destinations out of 1000 (max. 500000)
+ 352 words of extra memory for PDF output out of 10000 (max. 10000000)
 
