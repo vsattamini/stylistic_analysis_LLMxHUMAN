@@ -15,31 +15,59 @@ Para prevenir vazamento de dados, verificamos que os textos não apresentam agru
 \subsection{Extração de Características Estilométricas}
 \label{sec:features}
 
-Cada amostra de texto foi processada pelo módulo \texttt{src/features.py}, que calcula 10 métricas estilométricas contínuas em português. As características foram selecionadas por capturarem aspectos complementares da estrutura estatística e lexical dos textos:
+Foram extraídas 10 características estilométricas de cada documento, todas representando variáveis contínuas. A escolha dessas características baseia-se em estudos anteriores que demonstraram sua eficácia na análise de autoria \cite{stamatatos2009,stylometric_llm_detection}.
+
+\subsubsection{Variáveis em Escala de Razão}
+
+As nove características a seguir são mensuradas em \textbf{escala de razão}, possuindo zero absoluto e permitindo interpretação de razões:
 
 \begin{enumerate}
-    \item \textbf{Comprimento médio de frase} (\texttt{sent\_mean}): medida de tendência central do número de palavras por frase, calculada após segmentação em pontos finais, exclamações e interrogações. Representa o padrão sintático dominante no texto.
+    \item \textbf{Comprimento médio de frase} (\texttt{sent\_mean}): Média aritmética do número de palavras por frase. Unidade: palavras/frase. Zero representa ausência de palavras.
 
-    \item \textbf{Desvio padrão do comprimento de frase} (\texttt{sent\_std}): medida de dispersão que quantifica a variabilidade na estrutura sintática. Desvio padrão populacional (ddof=0) do número de palavras por frase. Textos com alta variabilidade sintática apresentam maior desvio padrão.
+    \item \textbf{Desvio padrão do comprimento de frase} (\texttt{sent\_std}): Medida de dispersão absoluta do comprimento de frases. Unidade: palavras. Quantifica a variabilidade no comprimento das frases.
 
-    \item \textbf{Coeficiente de variação do comprimento de frase} (\texttt{sent\_burst}): razão entre o desvio padrão e a média do comprimento de frases ($CV = \sigma / \mu$). Esta medida de dispersão relativa normaliza a variabilidade pela tendência central, permitindo comparações entre textos com diferentes médias de comprimento. É uma estatística adimensional amplamente utilizada para comparar variabilidade entre distribuições com escalas distintas.
+    \item \textbf{Coeficiente de variação do comprimento de frase} (\texttt{sent\_cv}): Razão entre desvio padrão e média ($CV = \sigma/\mu$). Estatística adimensional que normaliza a variabilidade pela tendência central, permitindo comparação entre distribuições com escalas distintas \cite{madsen2005}.
 
-    \item \textbf{Relação tipo-token} (\texttt{ttr}): medida de diversidade lexical calculada como $\text{TTR} = V/N$, onde $V$ é o número de tipos (palavras únicas) e $N$ o número de tokens (total de palavras). Quantifica a dispersão do vocabulário: valores altos indicam maior variedade lexical.
+    \item \textbf{Riqueza lexical - C de Herdan} (\texttt{herdan\_c}): Medida de diversidade vocabular calculada como $C = \log(V) / \log(N)$, onde $V$ é o número de tipos (palavras distintas) e $N$ é o número de tokens (total de palavras) \cite{herdan1960}. Varia entre 0 e 1, onde valores próximos a 1 indicam maior diversidade lexical.
 
-    \item \textbf{C de Herdan} (\texttt{herdan\_c}): medida de diversidade lexical normalizada para o comprimento do texto, calculada como $C = \log(V) / \log(N)$~\cite{herdan1960}. Corrige o viés de comprimento presente no TTR, fornecendo estimativa mais estável da dispersão vocabular.
+    \item \textbf{Proporção de pontuação} (\texttt{punct\_ratio}): Razão entre número de sinais de pontuação e total de caracteres. Adimensional, varia entre 0 e 1.
 
-    \item \textbf{Proporção de hapax legomena} (\texttt{hapax\_prop}): fração de palavras que ocorrem exatamente uma vez no texto, relativa ao total de tokens. Captura a raridade lexical e está relacionada à riqueza vocabular.
+    \item \textbf{Proporção de dígitos} (\texttt{digit\_ratio}): Razão entre dígitos numéricos e total de caracteres. Adimensional, varia entre 0 e 1.
 
-    \item \textbf{Variabilidade da distribuição de caracteres} (\texttt{char\_entropy}): medida de dispersão na distribuição de frequências de caracteres, calculada pela fórmula de Shannon $H = -\sum p(c) \log_2 p(c)$, onde $p(c)$ é a frequência relativa de cada caractere. Esta medida quantifica a variabilidade: alta entropia indica distribuição mais uniforme (maior dispersão entre caracteres); baixa entropia indica concentração em poucos caracteres (menor dispersão). Estatisticamente, funciona como uma medida de dispersão análoga ao desvio padrão, mas aplicada a distribuições de frequência categórica.
+    \item \textbf{Proporção de letras maiúsculas} (\texttt{upper\_ratio}): Razão entre letras maiúsculas e total de letras. Adimensional, varia entre 0 e 1.
 
-    \item \textbf{Proporção de palavras funcionais} (\texttt{func\_word\_ratio}): fração de tokens pertencentes a uma lista curada de 86 palavras funcionais do português (artigos, preposições, conjunções e pronomes). Palavras funcionais são estáveis entre textos e apresentam menor variância que palavras de conteúdo, sendo discriminativas para detecção de autoria.
+    \item \textbf{Proporção de palavras funcionais} (\texttt{func\_ratio}): Razão entre palavras funcionais (artigos, preposições, conjunções, pronomes) e total de palavras \cite{stamatatos2009}. Adimensional, varia entre 0 e 1. Palavras funcionais são frequentes e pouco conscientes, revelando estilo autoral.
 
-    \item \textbf{Proporção de pronomes de primeira pessoa} (\texttt{first\_person\_ratio}): fração de tokens que são pronomes de primeira pessoa (eu, me, mim, meu, minha, nós, nos, nosso, nossa). Captura o grau de subjetividade e perspectiva pessoal no texto.
-
-    \item \textbf{Proporção de bigramas repetidos} (\texttt{bigram\_repeat\_ratio}): fração de bigramas únicos que aparecem mais de uma vez no texto. Mede a redundância de estruturas locais de dois tokens.
+    \item \textbf{Comprimento médio de palavra} (\texttt{word\_len\_mean}): Média do número de caracteres por palavra. Unidade: caracteres/palavra.
 \end{enumerate}
 
-Todas as métricas foram calculadas após tokenização baseada em expressões regulares (padrão \texttt{\textbackslash b\textbackslash w+\textbackslash b}). Do ponto de vista estatístico, todas as características são \textbf{variáveis contínuas} (admitem valores fracionários e permitem operações aritméticas). Quanto à escala de medida, nove características estão em \textbf{escala de razão} (possuem zero absoluto e razões interpretáveis), enquanto a entropia de caracteres está em \textbf{escala de intervalo} (diferenças são interpretáveis mas razões não têm significado, pois não há zero absoluto natural).
+\subsubsection{Variável em Escala de Intervalo}
+
+\begin{enumerate}
+    \setcounter{enumi}{9}
+    \item \textbf{Variabilidade da distribuição de caracteres} (\texttt{char\_entropy}): Medida de dispersão na distribuição de frequências de caracteres, calculada pela fórmula de Shannon $H = -\sum_{c} p(c) \log_2 p(c)$ \cite{shannon1948}, onde $p(c)$ é a probabilidade de ocorrência do caractere $c$.
+
+    Esta medida quantifica a variabilidade: alta entropia indica distribuição mais uniforme (maior dispersão); baixa entropia indica concentração (menor dispersão).
+
+    \textbf{Justificativa estatística}: Embora originalmente uma medida da teoria da informação, a entropia funciona como \textbf{medida de dispersão análoga ao desvio padrão}, mas aplicada a distribuições de frequência categórica. A entropia é mensurada em \textbf{escala de intervalo} porque:
+    \begin{itemize}
+        \item Diferenças entre valores são interpretáveis (aumento de 1 bit representa dobrar a incerteza)
+        \item Não possui zero absoluto natural (zero ocorre apenas com um único caractere)
+        \item Razões entre valores não são estatisticamente interpretáveis
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Justificativa da Escolha das Características}
+
+Todas as características foram selecionadas por três critérios:
+
+\begin{enumerate}
+    \item \textbf{Objetividade}: Mensuração automática e determinística, sem julgamento subjetivo.
+    \item \textbf{Robustez}: Insensibilidade a pequenas variações no texto ou erros de tokenização.
+    \item \textbf{Fundamentação teórica}: Suporte empírico na literatura de estilometria para distinção de autoria.
+\end{enumerate}
+
+A combinação de variáveis em escala de razão e intervalo permite aplicação de métodos estatísticos diversos. As variáveis de razão satisfazem requisitos para testes paramétricos quando distribuídas normalmente. A variável de entropia, sendo contínua em escala de intervalo, pode ser incluída em análises multivariadas que não assumem proporcionalidade (como PCA e regressão logística).
 
 \subsection{Testes Estatísticos Não Paramétricos}
 
