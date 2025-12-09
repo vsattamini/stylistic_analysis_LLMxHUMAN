@@ -8,6 +8,40 @@ A mineração de texto consiste em extrair informações úteis de dados textuai
 
 Utilizou-se um conjunto de dados textuais balanceado em português do Brasil contendo 100.000 amostras (50.000 autorais, 50.000 de LLMs), extraídas por amostragem estratificada de um conjunto maior com 2.331.317 documentos originais provenientes de 5 fontes distintas. As fontes de texto autoral incluem: (i) BrWaC (Brazilian Web as Corpus)~\cite{brwac}, um grande conjunto web de textos brasileiros; e (ii) BoolQ~\cite{boolq}, contendo passagens de contexto para perguntas booleanas. As fontes de texto gerado por LLM incluem: (i) ShareGPT-Portuguese~\cite{sharegpt_portuguese}, conversas em português extraídas da plataforma ShareGPT; (ii) resenhas do IMDB traduzidas para português por modelos de tradução automática (classificadas como texto LLM); e (iii) o dataset Canarim~\cite{canarim}, contendo saídas geradas por LLMs.
 
+\subsubsection{Método de Amostragem Estratificada}
+
+A amostragem foi realizada através de \textbf{amostragem aleatória estratificada proporcional} com estratificação por fonte de origem dos textos. Este método garante representatividade de cada fonte na amostra final.
+
+\textbf{Procedimento}:
+
+\begin{enumerate}
+    \item \textbf{Definição de estratos}: A população foi dividida em $L = 5$ estratos correspondentes às fontes:
+    \begin{itemize}
+        \item Estrato 1: BrWaC (textos web humanos)
+        \item Estrato 2: BoolQ traduzido (textos humanos)
+        \item Estrato 3: ShareGPT-Portuguese (LLM conversacional)
+        \item Estrato 4: IMDB traduzido (LLM)
+        \item Estrato 5: Canarim-Instruct (LLM instrucional)
+    \end{itemize}
+
+    \item \textbf{Cálculo dos tamanhos amostrais por estrato}: Para amostragem proporcional com tamanho total $n = 100.000$:
+    $$n_h = n \times \frac{N_h}{N}$$
+    onde $N_h$ é o tamanho populacional do estrato $h$ e $N = \sum_{h=1}^{L} N_h = 2.331.317$ é o tamanho populacional total.
+
+    \item \textbf{Seleção aleatória simples dentro de cada estrato}: Utilizamos \texttt{numpy.random.choice} com semente fixa (42) para reprodutibilidade, sem reposição.
+
+    \item \textbf{Combinação das amostras estratificadas}: A amostra final é a união $\bigcup_{h=1}^{L} s_h$ onde $s_h$ é a amostra do estrato $h$.
+\end{enumerate}
+
+\textbf{Vantagens da estratificação}:
+\begin{itemize}
+    \item \textbf{Representatividade}: Garante presença de todas as fontes proporcionalmente ao tamanho populacional
+    \item \textbf{Redução de variância}: A variância da estimativa é menor que na amostragem aleatória simples quando há heterogeneidade entre estratos
+    \item \textbf{Estimativas por estrato}: Permite análises separadas por fonte quando necessário
+\end{itemize}
+
+\textbf{Justificativa estatística}: A estratificação por fonte é apropriada pois diferentes fontes podem ter características textuais distintas (e.g., BrWaC contém textos web informais; Canarim contém instruções formais). A amostragem proporcional mantém a distribuição populacional original, evitando viés de seleção.
+
 Os textos foram previamente filtrados por comprimento mínimo de 100 caracteres e máximo de 10.000 caracteres, sendo textos muito longos segmentados em fragmentos de até 10.000 caracteres sem sobreposição. A segmentação priorizou quebras naturais de texto (pontos finais, parágrafos e espaços). O balanceamento foi obtido por subamostragem da classe majoritária e sobreamostragem da classe minoritária, resultando em proporções exatamente iguais (50\%/50\%). A amostra de 100.000 documentos foi selecionada aleatoriamente com semente fixa (\texttt{seed=42}) para reprodutibilidade.
 
 Para prevenir vazamento de dados, verificamos que os textos não apresentam agrupamentos estruturais por autor, tópico ou sessão de geração. A validação cruzada estratificada mantém o balanço de classes entre as partições, garantindo amostras independentes em conjuntos de treino e teste. Esta abordagem evita viés de avaliação documentado em estudos anteriores~\cite{kohavi1995}.
